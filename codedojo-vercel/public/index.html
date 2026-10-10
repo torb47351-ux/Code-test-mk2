@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Code Dojo – ฝึกเขียนโค้ด HTML CSS C++</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070d1f;--pn:#101c3b;--pn2:#15264f;--ln:#243a6e;--tx:#e8f0ff;--mu:#8fa4d4;--ac:#3b82f6;--ac2:#22d3ee;--ok:#34d399;--er:#fb7185;--cd:#060b1a;--ct:#dbe7ff;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;color:var(--tx);font:16px/1.6 Sarabun,system-ui,sans-serif;background:radial-gradient(900px 480px at 8% -8%,rgba(59,130,246,.28),transparent),radial-gradient(700px 380px at 100% 0,rgba(34,211,238,.14),transparent),var(--bg);min-height:100vh}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+header{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--ln);background:rgba(16,28,59,.75);backdrop-filter:blur(8px);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.logo{display:flex;gap:10px;align-items:center}
+h1{margin:0;font-size:1.35rem;font-weight:800;background:linear-gradient(90deg,#fff,var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#mbtn{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:6px 12px}
+.stat{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.rank{font-weight:600}.stars{color:#fbbf24;letter-spacing:2px}
+#pbtn,.big{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#04122e;border:0;border-radius:10px;padding:8px 16px;font-weight:800}
+#pbtn:disabled,.big:disabled{background:var(--ln);color:var(--mu);cursor:not-allowed}
+main{display:grid;grid-template-columns:290px 1fr;gap:20px;padding:20px;max-width:1200px;margin:auto}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.panel,.card{background:linear-gradient(180deg,var(--pn),#0d1733);border:1px solid var(--ln);border-radius:16px;padding:16px;box-shadow:0 8px 30px rgba(0,0,40,.35)}
+.langs{display:flex;gap:6px;margin-bottom:10px}
+.tab{flex:1;padding:8px 4px;border:1px solid var(--ln);background:transparent;border-radius:10px;font-weight:600}
+.tab[aria-selected=true]{background:linear-gradient(135deg,var(--ac),#2563eb);border-color:var(--ac2)}
+.tab[disabled]{opacity:.5;cursor:not-allowed}
+.lv{margin:14px 0 4px;font-weight:800}.lv small{font-weight:400;color:var(--mu)}
+.ch{display:flex;justify-content:space-between;width:100%;text-align:left;padding:9px 12px;margin:4px 0;border:1px solid var(--ln);border-radius:10px;background:transparent}
+.ch:hover{background:var(--pn2)}
+.ch[aria-current=true]{border-color:var(--ac2);box-shadow:inset 4px 0 0 var(--ac2)}
+.lock{color:var(--mu);font-size:.9rem}
+h2{margin:0 0 4px;font-size:1.35rem}
+.tag{display:inline-block;font-size:.8rem;color:var(--ac2);border:1px solid var(--ln);border-radius:99px;padding:0 10px;margin-bottom:8px}
+.ide{border:1px solid var(--ln);border-radius:12px;overflow:hidden;background:var(--cd)}
+.tb{display:flex;gap:6px;align-items:center;padding:8px 12px;background:var(--pn2)}
+.tb i{width:11px;height:11px;border-radius:50%;background:#ff5f57}.tb i:nth-child(2){background:#febc2e}.tb i:nth-child(3){background:#28c840}
+.tb span{margin-left:8px;color:var(--mu);font:12px "JetBrains Mono",monospace}
+.ed{display:flex;height:270px}
+#ln{margin:0;padding:12px 8px;min-width:40px;text-align:right;color:#4b5f94;font:14px/1.5 "JetBrains Mono",monospace;overflow:hidden;user-select:none;border-right:1px solid var(--ln)}
+textarea{flex:1;height:100%;background:transparent;color:var(--ct);border:0;padding:12px;font:14px/1.5 "JetBrains Mono",monospace;resize:none;white-space:pre;overflow:auto;tab-size:2;outline-offset:-3px}
+.bar{display:flex;gap:10px;margin:12px 0;flex-wrap:wrap}
+.bar button{padding:8px 16px;border-radius:10px;border:1px solid var(--ln);background:var(--pn2)}
+#run{background:var(--ok);border-color:var(--ok);color:#03221a;font-weight:800}
+#msg{min-height:28px;font-weight:600}
+.okc,.done{color:var(--ok)}.erc{color:var(--er)}.done{font-weight:800}
+iframe{width:100%;height:170px;border:1px solid var(--ln);border-radius:12px;background:#fff}
+.note{font-size:.85rem;color:var(--mu)}
+.rq{list-style:none;padding:0;margin:8px 0;font-weight:400}
+#work p{white-space:pre-line}
+#sol{margin-top:12px;padding:12px;border:1px dashed var(--ac2);border-radius:10px}
+#sol pre{margin:8px 0;padding:12px;background:var(--cd);color:var(--ct);border-radius:8px;overflow-x:auto;font:14px/1.5 "JetBrains Mono",monospace}
+#sol button{padding:6px 12px;border-radius:8px;border:1px solid var(--ln);background:transparent}
+.rnd{width:100%;padding:9px;border:0;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#04122e;font-weight:800;margin-bottom:6px}
+#menu{max-width:1100px;margin:auto;padding:24px 20px}
+.hero{padding:34px 26px;border:1px solid var(--ln);border-radius:22px;background:linear-gradient(135deg,#17317a,#0a1330);margin-bottom:20px;box-shadow:0 12px 40px rgba(37,99,235,.25)}
+.hero h2{font-size:clamp(1.7rem,5vw,2.6rem);font-weight:800;margin:0 0 6px}
+.hero p{color:var(--mu);margin:0 0 16px;max-width:560px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chips span{background:rgba(255,255,255,.08);border:1px solid var(--ln);border-radius:99px;padding:2px 14px;font-weight:600}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:20px}
+.card h3{margin:4px 0;font-size:1.3rem}.card p{color:var(--mu);margin:0;min-height:48px}
+.card.lk{opacity:.65}.ic{font-size:2rem}
+.card .big{width:100%;margin-top:12px}
+.pb{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;margin:12px 0 4px}
+.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.two h3{margin:0 0 6px}.two ol{margin:0;padding-left:20px;color:var(--mu)}
+#auth{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgba(4,8,22,.88);backdrop-filter:blur(6px);padding:16px}
+.authbox{width:min(380px,100%);background:linear-gradient(180deg,var(--pn),#0d1733);border:1px solid var(--ln);border-radius:18px;padding:24px;display:grid;gap:12px;box-shadow:0 12px 40px rgba(37,99,235,.3)}
+.authbox label{display:grid;gap:4px;font-weight:600}
+.authbox input{padding:10px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--cd);color:var(--tx);font:inherit}
+#aerr{color:var(--er);min-height:22px}
+.lnk{background:none;border:0;color:var(--ac2);text-decoration:underline}
+#lbtn{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:6px 12px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hero2{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:center;padding:32px 28px;border:1px solid var(--ln);border-radius:24px;background:radial-gradient(500px 240px at 90% 0,rgba(34,211,238,.22),transparent),linear-gradient(135deg,#17317a,#0a1330);margin-bottom:22px;box-shadow:0 14px 44px rgba(37,99,235,.28)}
+@media(max-width:760px){.hero2{grid-template-columns:1fr}}
+.hero2 h2{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800;margin:0 0 6px}
+.hero2 p{color:#b9c9ee;margin:0 0 18px;max-width:520px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles div{background:rgba(255,255,255,.07);border:1px solid var(--ln);border-radius:14px;padding:12px 14px;display:grid}
+.tiles b{font-size:1.25rem;color:#fff;overflow:hidden;text-overflow:ellipsis}.tiles span{font-size:.8rem;color:var(--mu)}
+.sec{margin:6px 0 12px;font-size:1.2rem}
+.chd{display:flex;gap:12px;align-items:center}.chd p{min-height:0!important}
+.ladder{list-style:none;padding:0;margin:14px 0 4px;display:grid;gap:6px}
+.st{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border:1px solid var(--ln);border-radius:10px;font-size:.9rem;color:var(--mu)}
+.st b{font-weight:600}
+.st.done{border-color:var(--ok);color:var(--ok)}.st.done small::before{content:"✓ "}
+.st.cur{border-color:var(--ac2);color:var(--tx);box-shadow:inset 4px 0 0 var(--ac2)}
+.st.lock{opacity:.55}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.row2 .big{margin:0!important;width:100%}
+.ghost{background:transparent;border:1px solid var(--ln);border-radius:10px;padding:8px 12px;font-weight:600}
+.ghost:hover{background:var(--pn2)}.ghost:disabled{opacity:.5;cursor:not-allowed}
+#kb{max-width:900px;margin:auto;padding:24px 20px}
+#kbbtn{background:var(--pn2);border:1px solid var(--ln);border-radius:8px;padding:6px 12px}
+.kbbar{margin:12px 0}
+#kq{width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);color:var(--tx);font:inherit}
+.chips2{display:flex;gap:6px;flex-wrap:wrap}
+.chips2 button{padding:4px 12px;border-radius:99px;border:1px solid var(--ln);background:transparent}
+.chips2 button.on{background:linear-gradient(135deg,var(--ac),#2563eb);border-color:var(--ac2)}
+.kbe{border:1px solid var(--ln);border-radius:12px;background:var(--pn2);margin:8px 0}
+.kbe summary{cursor:pointer;padding:10px 14px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.kbe summary code{font:600 .95rem "JetBrains Mono",monospace;color:var(--ac2)}
+.kbe summary span:nth-of-type(1){color:var(--tx)}
+.kbe .g{margin-left:auto;font-size:.75rem;color:var(--mu);border:1px solid var(--ln);border-radius:99px;padding:0 8px}
+.kbe ul{margin:0;padding:0 18px 12px 36px}.kbe li{margin:5px 0}
+.kblock{text-align:center;padding:36px 12px}.kblock .ic{font-size:2.4rem}
+.ex{margin:0 14px 12px;padding:10px 12px;background:var(--cd);color:var(--ct);border-radius:8px;overflow-x:auto;font:13px/1.5 "JetBrains Mono",monospace;border-left:3px solid var(--ac2)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><button id="mbtn" data-m="1" aria-label="กลับไปหน้าเมนู">☰ เมนู</button><button id="kbbtn" data-kb="*">📖 ความรู้</button><h1>Code Dojo</h1></div>
+  <div class="stat">
+    <span class="rank" id="rank"></span><span class="stars" id="stars" aria-label="ระดับ Prestige"></span>
+    <span id="xp"></span>
+    <button id="lbtn" hidden></button>
+    <button id="pbtn" data-act="prestige" disabled>★ Prestige</button>
+  </div>
+</header>
+<section id="menu"></section>
+<section id="kb" hidden></section>
+<main id="play" hidden>
+  <aside class="panel">
+    <div class="langs" role="tablist" id="langs"></div>
+    <div id="list"></div>
+  </aside>
+  <section class="panel" id="work"></section>
+</main>
+<div id="auth" hidden role="dialog" aria-modal="true" aria-labelledby="atitle"><div class="authbox">
+<h2 id="atitle">เข้าสู่ระบบ</h2>
+<label>อีเมล<input id="aem" type="email" autocomplete="email"></label>
+<label>รหัสผ่าน (8 ตัวขึ้นไป)<input id="apw" type="password" autocomplete="current-password"></label>
+<div id="aerr" role="alert"></div>
+<button class="big" id="asub">เข้าสู่ระบบ</button>
+<button class="lnk" id="atog">ยังไม่มีบัญชี? สมัครสมาชิก</button>
+<button class="lnk" id="aguest">เล่นแบบไม่ล็อกอิน</button>
+</div></div>
+<script>
+const $=s=>document.querySelector(s);
+const H=(lang,d,title,task,start,t,base='')=>({lang,d,title,task,start,t,base});
+const CH=[
+H('html','easy','หัวข้อแรก','สร้างหัวข้อ <h1> ที่มีข้อความว่า สวัสดี','<!-- เขียนโค้ดตรงนี้ -->\n',d=>d.querySelector('h1')?.textContent.trim()==='สวัสดี'),
+H('html','easy','รายการ','สร้างรายการแบบจุด <ul> ที่มี <li> อย่างน้อย 3 ข้อ','',d=>d.querySelectorAll('ul>li').length>=3),
+H('html','medium','ลิงก์ใหม่','สร้างลิงก์ <a> ไปที่ https://example.com ให้เปิดในแท็บใหม่ (target="_blank")','',d=>!!d.querySelector('a[href="https://example.com"][target="_blank"]')),
+H('html','medium','ตาราง','สร้าง <table> อย่างน้อย 2 แถว มีหัวตาราง <th> และช่องข้อมูล <td>','',d=>d.querySelectorAll('table tr').length>=2&&!!d.querySelector('th')&&!!d.querySelector('td')),
+H('html','hard','ฟอร์มสมัคร','สร้าง <form> ที่มี <label for> ผูกกับ <input type="email" id="..." required> และปุ่ม <button type="submit">','',d=>{const i=d.querySelector('form input[type=email][required][id]');return !!i&&!!d.querySelector('label[for="'+i.id+'"]')&&!!d.querySelector('form button[type=submit]')}),
+H('html','hard','โครงสร้างหน้าเว็บ','ใช้แท็กความหมาย: <header>, <nav> ที่มีลิงก์ 2 อัน, <main> ที่มี <article>, และ <footer>','',d=>!!d.querySelector('header')&&d.querySelectorAll('nav a').length>=2&&!!d.querySelector('main article')&&!!d.querySelector('footer')),
+H('css','easy','กล่องสีแดง','ทำให้ .box มีพื้นหลังสีแดง (red)','.box{\n  \n}',(d,w)=>w.getComputedStyle(d.querySelector('.box')).backgroundColor==='rgb(255, 0, 0)','<div class="box">กล่อง</div>'),
+H('css','easy','ตัวอักษร','ทำให้ p มีสีน้ำเงิน (blue) และขนาด 24px','p{\n  \n}',(d,w)=>{const c=w.getComputedStyle(d.querySelector('p'));return c.color==='rgb(0, 0, 255)'&&c.fontSize==='24px'},'<p>ข้อความทดลอง</p>'),
+H('css','medium','Flexbox','จัด .row ให้เป็น flex, อยู่กึ่งกลางแนวนอน (justify-content: center) และมี gap 10px','.row{\n  \n}',(d,w)=>{const c=w.getComputedStyle(d.querySelector('.row'));return c.display==='flex'&&c.justifyContent==='center'&&c.columnGap==='10px'},'<div class="row"><b>A</b><b>B</b><b>C</b></div>'),
+H('css','medium','วงกลม','ทำให้ .dot เป็นวงกลม กว้างและสูง 80px มีสีพื้นหลังใดก็ได้ที่ไม่ใช่โปร่งใส','.dot{\n  \n}',(d,w)=>{const c=w.getComputedStyle(d.querySelector('.dot'));return c.width==='80px'&&c.height==='80px'&&parseFloat(c.borderTopLeftRadius)>=40&&c.backgroundColor!=='rgba(0, 0, 0, 0)'},'<div class="dot"></div>'),
+H('css','hard','Grid 3 คอลัมน์','ทำ .grid ให้เป็น grid 3 คอลัมน์ มี gap 12px','.grid{\n  \n}',(d,w)=>{const c=w.getComputedStyle(d.querySelector('.grid'));return c.display==='grid'&&c.gridTemplateColumns.trim().split(/\s+/).length===3&&c.rowGap==='12px'},'<div class="grid"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></div>'),
+H('css','hard','ปุ่มมี hover','เขียน .btn:hover ให้ปุ่มเปลี่ยนสีพื้นหลัง และให้ .btn มี transition นานอย่างน้อย 0.2s','.btn{\n  \n}\n.btn:hover{\n  \n}',(d,w,code)=>{const c=w.getComputedStyle(d.querySelector('.btn'));return /\.btn\s*:hover\s*{[^}]*background/.test(code)&&parseFloat(c.transitionDuration)>=0.2},'<button class="btn">กดฉัน</button>'),
+H('cpp','easy','Hello World','พิมพ์ Hello, World! ด้วย cout ในฟังก์ชัน main','#include <iostream>\nusing namespace std;\n\nint main() {\n  \n  return 0;\n}',c=>/#include\s*<iostream>/.test(c)&&/main\s*\(/.test(c)&&/cout\s*<<\s*"Hello, World!"/.test(c)),
+H('cpp','easy','ผลรวม','ประกาศตัวแปร int สองตัวที่ตั้งค่าไว้ แล้วพิมพ์ผลบวกด้วย cout','#include <iostream>\nusing namespace std;\n\nint main() {\n  \n}',c=>/int\s+\w+\s*=\s*\d+/.test(c)&&/cout\s*<<[^;]*\w\s*\+\s*\w/.test(c)),
+H('cpp','medium','วนลูป 1 ถึง 10','ใช้ for พิมพ์เลข 1 ถึง 10','#include <iostream>\nusing namespace std;\n\nint main() {\n  \n}',c=>/for\s*\(/.test(c)&&/(<=\s*10|<\s*11)/.test(c)&&/cout/.test(c)),
+H('cpp','medium','ฟังก์ชัน square','เขียนฟังก์ชัน int square(int x) ที่คืนค่ายกกำลังสอง','#include <iostream>\nusing namespace std;\n\n',c=>/int\s+square\s*\(\s*int\s+\w+\s*\)/.test(c)&&/return\s+[^;]*\*[^;]*;/.test(c)),
+H('cpp','hard','vector','สร้าง vector<int> เพิ่มข้อมูลด้วย push_back อย่างน้อย 3 ตัว แล้ววนแบบ range-based for','#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n  \n}',c=>/#include\s*<vector>/.test(c)&&/vector\s*<\s*int\s*>/.test(c)&&(c.match(/push_back/g)||[]).length>=3&&/for\s*\(\s*(auto|int)\s*&?\s*\w+\s*:\s*\w+\s*\)/.test(c)),
+H('cpp','hard','คลาส','สร้าง class ที่มีส่วน private, public และ constructor ที่ชื่อเดียวกับคลาส','#include <iostream>\nusing namespace std;\n\n',c=>{const m=c.match(/class\s+(\w+)/);return !!m&&/private\s*:/.test(c)&&/public\s*:/.test(c)&&new RegExp(m[1]+'\\s*\\(').test(c.slice(c.indexOf('public')))})
+];
+CH.forEach((c,i)=>c.id=i);
+const SOL=[
+['<h1>สวัสดี</h1>','แท็ก h1 คือหัวข้อหลักของหน้า ข้อความต้องตรงกับที่โจทย์กำหนดเป๊ะ'],
+['<ul>\n  <li>หนึ่ง</li>\n  <li>สอง</li>\n  <li>สาม</li>\n</ul>','ul คือรายการแบบจุด ส่วน li แต่ละอันคือหนึ่งข้อในรายการ'],
+['<a href="https://example.com" target="_blank">ไปที่ Example</a>','href กำหนดปลายทาง ส่วน target="_blank" ทำให้เปิดในแท็บใหม่'],
+['<table>\n  <tr>\n    <th>ชื่อ</th>\n    <th>คะแนน</th>\n  </tr>\n  <tr>\n    <td>มานี</td>\n    <td>90</td>\n  </tr>\n</table>','th คือหัวตาราง td คือช่องข้อมูล และ tr คือหนึ่งแถว'],
+['<form>\n  <label for="mail">อีเมล</label>\n  <input type="email" id="mail" required>\n  <button type="submit">สมัคร</button>\n</form>','ค่า for ของ label ต้องตรงกับ id ของ input จึงจะผูกกัน และ required บังคับให้กรอกก่อนส่ง'],
+['<header>เว็บของฉัน</header>\n<nav>\n  <a href="#a">หน้าแรก</a>\n  <a href="#b">เกี่ยวกับ</a>\n</nav>\n<main>\n  <article>เนื้อหาบทความ</article>\n</main>\n<footer>© 2026</footer>','แท็กเชิงความหมายช่วยให้เครื่องมืออ่านหน้าจอและ SEO เข้าใจโครงสร้างหน้า'],
+['.box{\n  background: red;\n}','background (หรือ background-color) กำหนดสีพื้นหลังขององค์ประกอบ'],
+['p{\n  color: blue;\n  font-size: 24px;\n}','color เปลี่ยนสีตัวอักษร ส่วน font-size เปลี่ยนขนาด'],
+['.row{\n  display: flex;\n  justify-content: center;\n  gap: 10px;\n}','display: flex เปิดโหมด flexbox, justify-content จัดแนวหลัก และ gap เว้นระยะระหว่างลูก'],
+['.dot{\n  width: 80px;\n  height: 80px;\n  border-radius: 50%;\n  background: orange;\n}','กล่องจัตุรัสที่มี border-radius 50% จะกลายเป็นวงกลม'],
+['.grid{\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}','repeat(3, 1fr) แบ่ง 3 คอลัมน์เท่ากัน และ gap ใช้กับทั้งแถวและคอลัมน์'],
+['.btn{\n  background: steelblue;\n  color: white;\n  border: 0;\n  padding: 8px 16px;\n  transition: background 0.3s;\n}\n.btn:hover{\n  background: navy;\n}','ใส่ transition ไว้ที่สถานะปกติ (.btn) สีจึงค่อย ๆ เปลี่ยนทั้งตอนเอาเมาส์เข้าและออก'],
+['#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << "Hello, World!" << endl;\n  return 0;\n}','cout ส่งข้อความออกหน้าจอ ตัวดำเนินการ << ใช้ต่อค่าที่จะพิมพ์'],
+['#include <iostream>\nusing namespace std;\n\nint main() {\n  int a = 5;\n  int b = 7;\n  cout << a + b << endl;\n  return 0;\n}','ประกาศตัวแปร int พร้อมค่าเริ่มต้น แล้วบวกกันในคำสั่ง cout ได้เลย (ผลลัพธ์ 12)'],
+['#include <iostream>\nusing namespace std;\n\nint main() {\n  for (int i = 1; i <= 10; i++) {\n    cout << i << " ";\n  }\n  return 0;\n}','for มี 3 ส่วน: ค่าเริ่มต้น เงื่อนไขทำต่อ และตัวเพิ่มค่า ต้องใช้ <= 10 เพื่อให้รวมเลข 10'],
+['#include <iostream>\nusing namespace std;\n\nint square(int x) {\n  return x * x;\n}\n\nint main() {\n  cout << square(4) << endl;\n  return 0;\n}','ฟังก์ชันระบุชนิดที่คืนค่า (int) ชื่อ พารามิเตอร์ และใช้ return ส่งผลลัพธ์กลับ'],
+['#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n  vector<int> v;\n  v.push_back(10);\n  v.push_back(20);\n  v.push_back(30);\n  for (int n : v) {\n    cout << n << " ";\n  }\n  return 0;\n}','vector คืออาร์เรย์ขนาดปรับได้ push_back เพิ่มท้ายลิสต์ และ for (int n : v) วนทุกตัวแบบสั้น'],
+['#include <iostream>\nusing namespace std;\n\nclass Player {\nprivate:\n  int hp;\npublic:\n  Player(int h) { hp = h; }\n  int getHp() { return hp; }\n};\n\nint main() {\n  Player p(100);\n  cout << p.getHp() << endl;\n  return 0;\n}','private ซ่อนข้อมูลภายในคลาส public เปิดให้ภายนอกใช้ และ constructor ชื่อเดียวกับคลาส ไม่มีชนิดที่คืนค่า']
+];
+CH.forEach(c=>c.sol=c.sol);
+const E=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),RG=(s,f='')=>new RegExp(s,f),cs=(d,w,s)=>w.getComputedStyle(d.querySelector(s));
+const rep=(n,f)=>Array.from({length:n},(_,i)=>f(i)).join('\n');
+const SK=b=>'#include <iostream>\nusing namespace std;\n\nint main() {\n'+b+'\n  return 0;\n}';
+const cnt1=(s,r)=>(s.match(r)||[]).length;
+const T8=['h1','h2','h3','p','button','strong','em','span'],WD=['สวัสดี','ยินดีต้อนรับ','โค้ดดิ้ง','ข้อความ','ทดสอบ','เว็บไซต์'];
+const U=['https://example.com','https://claude.ai','https://github.com','https://wikipedia.org','https://mozilla.org','https://w3.org','https://python.org','https://cplusplus.com'];
+const TY=['email','password','number','date','tel','url','text','search','time','month','week','color','range','file','datetime-local','checkbox'];
+const CO=[['red','rgb(255, 0, 0)'],['blue','rgb(0, 0, 255)'],['lime','rgb(0, 255, 0)'],['yellow','rgb(255, 255, 0)'],['black','rgb(0, 0, 0)'],['white','rgb(255, 255, 255)'],['orange','rgb(255, 165, 0)'],['purple','rgb(128, 0, 128)'],['pink','rgb(255, 192, 203)'],['gray','rgb(128, 128, 128)'],['navy','rgb(0, 0, 128)'],['teal','rgb(0, 128, 128)']];
+const PH=['Hello','Coding','C++ is fun','Good morning','I love code','Welcome','Test 123','Pixel','Rocket','Sunny day','Level up','Game over','Ready','Go go go','Thai food','Khon Kaen'];
+const CN=['Player','Car','Dog','Book','Robot','Account','Student','Cat','Phone','Ship','Enemy','Card'];
+const G={
+html:{
+easy:[k=>{const g=T8[k%8],w=WD[(k/8|0)%6];return{title:`แท็ก ${g}: ${w}`,task:`สร้างแท็ก <${g}> ที่มีข้อความว่า ${w}`,start:'',t:d=>d.querySelector(g)?.textContent.trim()===w,sol:[`<${g}>${w}</${g}>`,'ใส่ข้อความไว้ระหว่างแท็กเปิดและแท็กปิด']}}],
+medium:[
+k=>{const l=k<8?'ul':'ol',n=2+k%8;return{title:`รายการ ${l} ${n} ข้อ`,task:`สร้าง <${l}> ที่มี <li> อย่างน้อย ${n} ข้อ`,start:'',t:d=>d.querySelectorAll(l+'>li').length>=n,sol:[`<${l}>\n${rep(n,i=>`  <li>ข้อ ${i+1}</li>`)}\n</${l}>`,'li คือหนึ่งข้อ ul เป็นจุด ส่วน ol เป็นตัวเลข']}},
+k=>{const u=U[k%8],g=k<8?'_blank':'_self';return{title:`ลิงก์ ${u.slice(8)}`,task:`สร้างลิงก์ <a> ไปที่ ${u} โดยตั้ง target="${g}"`,start:'',t:d=>!!d.querySelector(`a[href="${u}"][target="${g}"]`),sol:[`<a href="${u}" target="${g}">ไปเลย</a>`,'_blank เปิดแท็บใหม่ _self เปิดในแท็บเดิม']}},
+k=>{const r=2+k%4,c=2+(k/4|0);return{title:`ตาราง ${r}×${c}`,task:`สร้าง <table> อย่างน้อย ${r} แถว ${c} คอลัมน์ โดยแถวแรกใช้ <th>`,start:'',t:d=>{const t=d.querySelectorAll('table tr');return t.length>=r&&t[0].cells.length>=c&&!!d.querySelector('th')},sol:[`<table>\n  <tr>${'<th>H</th>'.repeat(c)}</tr>\n${rep(r-1,()=>'  <tr>'+'<td>x</td>'.repeat(c)+'</tr>')}\n</table>`,'th คือหัวตาราง td คือข้อมูล tr คือแถว']}}],
+hard:[
+k=>{const y=TY[k];return{title:`ฟอร์มช่อง ${y}`,task:`สร้าง <form> ที่มี <input type="${y}" id="..." required> พร้อม <label for> ที่ผูกกับช่องนั้น และปุ่ม <button type="submit">`,start:'',t:d=>{const i=d.querySelector(`form input[type="${y}"][required][id]`);return !!i&&!!d.querySelector(`label[for="${i.id}"]`)&&!!d.querySelector('form button[type=submit]')},sol:[`<form>\n  <label for="f1">ช่อง</label>\n  <input type="${y}" id="f1" required>\n  <button type="submit">ส่ง</button>\n</form>`,'for ของ label ต้องตรงกับ id ของ input']}},
+k=>{const n=2+k%8,h=k<8?'h2':'h3';return{title:`section ${n} บทความ`,task:`สร้าง <section> ที่มี <article> ${n} อัน แต่ละอันมี <${h}> และ <p>`,start:'',t:d=>[...d.querySelectorAll('section>article')].filter(a=>a.querySelector(h)&&a.querySelector('p')).length>=n,sol:[`<section>\n${rep(n,i=>`  <article><${h}>หัวข้อ ${i+1}</${h}><p>เนื้อหา</p></article>`)}\n</section>`,'article คือเนื้อหาที่แยกเป็นเรื่อง ๆ ได้ในตัวเอง']}},
+k=>{const n=2+k%8,m=k>=8;return{title:`select ${n} ตัวเลือก${m?' (เลือกหลายอัน)':''}`,task:`สร้าง <label for> คู่กับ <select id name> ที่มี <option> ${n} ตัวเลือก${m?' และเปิด multiple':''}`,start:'',t:d=>{const s=d.querySelector('select[id][name]');return !!s&&s.options.length>=n&&(!m||s.multiple)&&!!d.querySelector(`label[for="${s.id}"]`)},sol:[`<label for="s1">เลือก</label>\n<select id="s1" name="s"${m?' multiple':''}>\n${rep(n,i=>`  <option>ตัวเลือก ${i+1}</option>`)}\n</select>`,'option แต่ละอันคือตัวเลือกใน select']}}]
+},
+css:{
+easy:[k=>{const j=k%4,[nm,rgb]=CO[k/4|0],sl=['.box','.box','.box','p'][j],pr=['background-color','color','border-color','color'][j],cp=['backgroundColor','color','borderTopColor','color'][j];return{title:`${pr} ${nm}`,task:`ตั้ง ${pr==='border-color'?'เส้นขอบ (border หนา 3px แบบ solid) ':pr+' '}ของ ${sl} เป็นสี ${nm}`,start:`${sl}{\n  \n}`,base:'<div class="box">กล่อง</div><p>ข้อความ</p>',t:(d,w)=>{const c=cs(d,w,sl);return c[cp]===rgb&&(j!==2||(c.borderTopStyle!=='none'&&parseFloat(c.borderTopWidth)>0))},sol:[`${sl}{\n  ${j===2?'border: 3px solid '+nm+';':pr+': '+nm+';'}\n}`,'ใช้ชื่อสีหรือรหัสสีที่เทียบเท่าก็ได้']}}],
+medium:[
+k=>{const s=12+2*k;return{title:`ตัวอักษร ${s}px หนา`,task:`ทำให้ p ขนาด ${s}px และตัวหนา (bold)`,start:'p{\n  \n}',base:'<p>ข้อความ</p>',t:(d,w)=>{const c=cs(d,w,'p');return c.fontSize===s+'px'&&parseInt(c.fontWeight)>=700},sol:[`p{\n  font-size: ${s}px;\n  font-weight: bold;\n}`,'font-weight: bold ทำให้ตัวหนา']}},
+k=>{const wd=80+10*k,p=5+k;return{title:`กล่อง ${wd}px`,task:`ทำให้ .box กว้าง ${wd}px และมี padding ${p}px ทั้งสี่ด้าน`,start:'.box{\n  \n}',base:'<div class="box">กล่อง</div>',t:(d,w)=>{const c=cs(d,w,'.box');return c.width===wd+'px'&&c.paddingTop===p+'px'&&c.paddingLeft===p+'px'},sol:[`.box{\n  width: ${wd}px;\n  padding: ${p}px;\n}`,'padding คือระยะห่างระหว่างขอบกับเนื้อหา']}},
+k=>{const m=(k%8+1)*5,r=k<8?10:20;return{title:`margin ${m} / มุม ${r}`,task:`ให้ .box มี margin ${m}px ทั้งสี่ด้าน และมุมโค้ง border-radius ${r}px`,start:'.box{\n  \n}',base:'<div class="box">กล่อง</div>',t:(d,w)=>{const c=cs(d,w,'.box');return c.marginTop===m+'px'&&c.marginLeft===m+'px'&&c.borderTopLeftRadius===r+'px'},sol:[`.box{\n  margin: ${m}px;\n  border-radius: ${r}px;\n}`,'margin คือระยะห่างภายนอกกล่อง']}}],
+hard:[
+k=>{const j=['center','space-between','space-around','flex-end'][k%4],dr=['row','column'][(k/4|0)%2],al=['center','flex-start'][(k/8|0)%2];return{title:`flex ${dr} · ${j} · ${al}`,task:`จัด .row เป็น flex ทิศทาง ${dr}, justify-content: ${j}, align-items: ${al}`,start:'.row{\n  \n}',base:'<div class="row" style="height:120px"><b>A</b><b>B</b><b>C</b></div>',t:(d,w)=>{const c=cs(d,w,'.row');return c.display==='flex'&&c.flexDirection===dr&&c.justifyContent===j&&c.alignItems===al},sol:[`.row{\n  display: flex;\n  flex-direction: ${dr};\n  justify-content: ${j};\n  align-items: ${al};\n}`,'justify-content จัดตามแกนหลัก align-items จัดตามแกนรอง']}},
+k=>{const n=2+k%4,g=8+4*(k/4|0);return{title:`grid ${n} คอลัมน์ gap ${g}`,task:`ทำ .grid เป็น grid ${n} คอลัมน์ มี gap ${g}px`,start:'.grid{\n  \n}',base:'<div class="grid">'+'<i>x</i>'.repeat(8)+'</div>',t:(d,w)=>{const c=cs(d,w,'.grid');return c.display==='grid'&&c.gridTemplateColumns.trim().split(/\s+/).length===n&&c.rowGap===g+'px'},sol:[`.grid{\n  display: grid;\n  grid-template-columns: repeat(${n}, 1fr);\n  gap: ${g}px;\n}`,'repeat(n, 1fr) แบ่งคอลัมน์เท่า ๆ กัน']}},
+k=>{const pr=['background','color','opacity','transform'][k%4],du=['0.2s','0.3s','0.5s','1s'][k/4|0],V={background:'tomato',color:'red',opacity:'0.6',transform:'scale(1.1)'};return{title:`hover ${pr} ${du}`,task:`เขียน .btn:hover ให้เปลี่ยน ${pr} และให้ .btn มี transition นานอย่างน้อย ${du}`,start:'.btn{\n  \n}\n.btn:hover{\n  \n}',base:'<button class="btn">กดฉัน</button>',t:(d,w,code)=>RG('\\.btn\\s*:hover\\s*\\{[^}]*'+pr).test(code)&&parseFloat(cs(d,w,'.btn').transitionDuration)>=parseFloat(du),sol:[`.btn{\n  transition: all ${du};\n}\n.btn:hover{\n  ${pr}: ${V[pr]};\n}`,'ใส่ transition ที่ .btn เพื่อให้เปลี่ยนนุ่มนวลทั้งตอนเข้าและออก']}}]
+},
+cpp:{
+easy:[
+k=>{const p=PH[k];return{title:`พิมพ์ "${p}"`,task:`พิมพ์ข้อความ ${p} ด้วย cout`,start:SK('  '),t:c=>/#include\s*<iostream>/.test(c)&&/main\s*\(/.test(c)&&RG('cout\\s*<<\\s*"'+E(p)+'"').test(c),sol:[SK(`  cout << "${p}" << endl;`),'cout << "ข้อความ" พิมพ์ออกหน้าจอ']}},
+k=>{const n=10+7*k;return{title:`ตัวแปร = ${n}`,task:`ประกาศ int ที่มีค่า ${n} แล้วพิมพ์ค่านั้นด้วย cout`,start:SK('  '),t:c=>{const m=c.match(RG('int\\s+(\\w+)\\s*=\\s*'+n+'\\s*;'));return !!m&&RG('cout\\s*<<[^;]*\\b'+m[1]+'\\b').test(c)},sol:[SK(`  int x = ${n};\n  cout << x << endl;`),'ประกาศตัวแปรแล้วส่งชื่อตัวแปรให้ cout']}},
+k=>{const a=k+2,b=3*k+1;return{title:`บวก ${a}+${b}`,task:`พิมพ์ผลบวกของ ${a} กับ ${b} โดยใช้เครื่องหมาย +`,start:SK('  '),t:c=>RG('\\b'+a+'\\b').test(c)&&RG('\\b'+b+'\\b').test(c)&&/cout/.test(c)&&/\+/.test(c),sol:[SK(`  cout << ${a} + ${b} << endl;`),`ผลลัพธ์คือ ${a+b}`]}}],
+medium:[
+k=>{const n=5+k;return{title:`for 1 ถึง ${n}`,task:`ใช้ for พิมพ์เลข 1 ถึง ${n}`,start:SK('  '),t:c=>/for\s*\(/.test(c)&&(RG('<=\\s*'+n+'\\b').test(c)||RG('<\\s*'+(n+1)+'\\b').test(c))&&/cout/.test(c),sol:[SK(`  for (int i = 1; i <= ${n}; i++) {\n    cout << i << " ";\n  }`),'ใช้ <= เพื่อให้รวมตัวสุดท้าย']}},
+k=>{const [nm,op]=[['add','+'],['sub','-'],['mul','*']][k%3],ty=['int','double','float','long'][(k/3|0)%4];return{title:`ฟังก์ชัน ${nm} (${ty})`,task:`เขียนฟังก์ชัน ${ty} ${nm}(${ty} a, ${ty} b) ที่คืนค่า a ${op} b`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>RG(ty+'\\s+'+nm+'\\s*\\(\\s*'+ty+'\\s+\\w+\\s*,\\s*'+ty+'\\s+\\w+\\s*\\)').test(c)&&RG('return\\s+\\w+\\s*\\'+op+'\\s*\\w+').test(c),sol:[`#include <iostream>\nusing namespace std;\n\n${ty} ${nm}(${ty} a, ${ty} b) {\n  return a ${op} b;\n}`,'ระบุชนิดคืนค่า ชื่อ และพารามิเตอร์ทุกตัว']}},
+k=>{const n=3+k;return{title:`while นับถอยหลัง ${n}`,task:`ใช้ while นับถอยหลังจาก ${n} ถึง 1`,start:SK('  '),t:c=>/while\s*\(/.test(c)&&RG('\\b'+n+'\\b').test(c)&&/(--|-=\s*1|-\s*1)/.test(c)&&/cout/.test(c),sol:[SK(`  int n = ${n};\n  while (n >= 1) {\n    cout << n << " ";\n    n--;\n  }`),'อย่าลืมลดค่า n ไม่เช่นนั้นลูปจะไม่จบ']}},
+k=>{const d=2+k;return{title:`หารลงตัวด้วย ${d}`,task:`กำหนด int n = ${d*3} แล้วใช้ if ตรวจว่า n หารด้วย ${d} ลงตัวหรือไม่ ถ้าลงตัวพิมพ์ "Yes"`,start:SK('  '),t:c=>/if\s*\(/.test(c)&&RG('%\\s*'+d+'\\b').test(c)&&/==\s*0/.test(c)&&/"Yes"/.test(c),sol:[SK(`  int n = ${d*3};\n  if (n % ${d} == 0) {\n    cout << "Yes";\n  }`),'% คือเศษจากการหาร ถ้าเศษเป็น 0 แปลว่าลงตัว']}}],
+hard:[
+k=>{const n=3+k;return{title:`vector ${n} ตัว`,task:`สร้าง vector<int> แล้ว push_back อย่างน้อย ${n} ครั้ง จากนั้นวนแสดงด้วย range-based for`,start:'#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n  \n}',t:c=>/#include\s*<vector>/.test(c)&&/vector\s*<\s*int\s*>/.test(c)&&cnt1(c,/push_back/g)>=n&&/for\s*\(\s*(auto|int)\s*&?\s*\w+\s*:\s*\w+\s*\)/.test(c),sol:[`#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n  vector<int> v;\n${rep(n,i=>`  v.push_back(${(i+1)*10});`)}\n  for (int x : v) {\n    cout << x << " ";\n  }\n  return 0;\n}`,'push_back เพิ่มท้าย vector ส่วน for (int x : v) วนทุกตัว']}},
+k=>{const n=CN[k];return{title:`คลาส ${n}`,task:`สร้าง class ชื่อ ${n} มีส่วน private ที่มีตัวแปร int, ส่วน public และ constructor ชื่อ ${n}`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>{const i=c.indexOf('class '+n);return i>=0&&/private\s*:/.test(c)&&/public\s*:/.test(c)&&/\bint\s+\w+\s*;/.test(c)&&RG('\\b'+n+'\\s*\\(').test(c.slice(c.indexOf('public',i)))},sol:[`#include <iostream>\nusing namespace std;\n\nclass ${n} {\nprivate:\n  int value;\npublic:\n  ${n}(int v) { value = v; }\n  int getValue() { return value; }\n};`,'constructor ชื่อเดียวกับคลาสและไม่มีชนิดคืนค่า']}},
+k=>{const n=2+k;return{title:`ตารางสูตรคูณ ${n}×${n}`,task:`ใช้ for ซ้อนกัน 2 ชั้น พิมพ์ตารางสูตรคูณ ${n}×${n}`,start:SK('  '),t:c=>cnt1(c,/for\s*\(/g)>=2&&(RG('<=\\s*'+n+'\\b').test(c)||RG('<\\s*'+(n+1)+'\\b').test(c))&&/\*/.test(c)&&/cout/.test(c),sol:[SK(`  for (int i = 1; i <= ${n}; i++) {\n    for (int j = 1; j <= ${n}; j++) {\n      cout << i * j << "\\t";\n    }\n    cout << endl;\n  }`),'ลูปนอกคือแถว ลูปในคือคอลัมน์']}},
+k=>{const n=CN[k];return{title:`struct ${n}`,task:`สร้าง struct ${n} ที่มีสมาชิกอย่างน้อย 2 ตัว แล้วสร้างตัวแปรชนิดนี้ใน main`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>RG('struct\\s+'+n+'\\s*\\{').test(c)&&cnt1(c,/(int|string|double|float)\s+\w+\s*;/g)>=2&&c.lastIndexOf(n)>c.indexOf('main'),sol:[`#include <iostream>\nusing namespace std;\n\nstruct ${n} {\n  int id;\n  double score;\n};\n\nint main() {\n  ${n} a;\n  a.id = 1;\n  a.score = 9.5;\n  cout << a.id << endl;\n  return 0;\n}`,'struct รวมข้อมูลหลายชนิด สมาชิกเข้าถึงด้วยจุด (a.id)']}}]
+}};
+const LV=['easy','medium','hard','expert','elite'];
+G.html.expert=[
+k=>{const n=2+k%4,m=2+(k/4|0)%4;return{title:`ลิสต์ซ้อน ${n}×${m}`,task:`สร้าง <ul> ที่มี <li> ${n} ข้อ โดยแต่ละข้อมี <ul> ย่อยที่มี <li> อย่างน้อย ${m} ข้อ`,start:'',t:d=>{const o=d.querySelector('body>ul');if(!o)return false;const li=[...o.children].filter(x=>x.tagName==='LI');return li.length>=n&&li.filter(l=>[...l.children].some(c=>c.tagName==='UL'&&c.children.length>=m)).length>=n},sol:[`<ul>\n${rep(n,i=>`  <li>หมวด ${i+1}\n    <ul>\n${rep(m,j=>`      <li>ย่อย ${j+1}</li>`)}\n    </ul>\n  </li>`)}\n</ul>`,'ul ซ้อนอยู่ภายใน li ของ ul ชั้นนอก']}},
+k=>{const nm=['size','color','plan','level'][k%4],n=2+(k/4|0)%4;return{title:`radio ${nm} ${n} ตัวเลือก`,task:`สร้าง <fieldset> ที่มี <legend> และ <input type="radio" name="${nm}"> ${n} ตัว โดยทุกตัวมี id และ <label for> ผูกอยู่`,start:'',t:d=>{const f=d.querySelector('fieldset');if(!f||!f.querySelector('legend'))return false;const r=[...f.querySelectorAll(`input[type=radio][name="${nm}"]`)];return r.length>=n&&r.every(x=>x.id&&d.querySelector(`label[for="${x.id}"]`))},sol:[`<fieldset>\n  <legend>เลือก</legend>\n${rep(n,i=>`  <input type="radio" name="${nm}" id="r${i}"><label for="r${i}">ตัวเลือก ${i+1}</label>`)}\n</fieldset>`,'radio ที่ name เดียวกันเลือกได้ทีละตัว']}},
+k=>{const r=2+k%4,c=2+(k/4|0)%4;return{title:`ตารางเต็มรูปแบบ ${r}×${c}`,task:`สร้าง <table> ที่มี <caption>, <thead> (th อย่างน้อย ${c} ช่อง), <tbody> อย่างน้อย ${r} แถว และ <tfoot> ที่มี <td colspan="${c}">`,start:'',t:d=>{const t=d.querySelector('table');if(!t||!t.querySelector('caption'))return false;const f=t.querySelector('tfoot td[colspan]');return t.querySelectorAll('thead th').length>=c&&t.querySelectorAll('tbody tr').length>=r&&!!f&&+f.getAttribute('colspan')>=c},sol:[`<table>\n  <caption>สรุป</caption>\n  <thead><tr>${'<th>H</th>'.repeat(c)}</tr></thead>\n  <tbody>\n${rep(r,()=>'    <tr>'+'<td>x</td>'.repeat(c)+'</tr>')}\n  </tbody>\n  <tfoot><tr><td colspan="${c}">รวม</td></tr></tfoot>\n</table>`,'colspan ทำให้ช่องเดียวกินหลายคอลัมน์']}}];
+G.css.expert=[
+k=>{const P=[['odd',i=>i%2===1],['even',i=>i%2===0],['3n',i=>i%3===0],['4n+1',i=>i%4===1]][k%4],[nm,rgb]=CO[[0,1,2,6][(k/4|0)%4]];return{title:`nth-child(${P[0]}) สี ${nm}`,task:`ใช้ li:nth-child(${P[0]}) ให้ตัวอักษรเป็นสี ${nm} เฉพาะข้อที่ตรงเงื่อนไข ข้ออื่นคงสีเดิม`,start:'li:nth-child(){\n  \n}',base:'<ul>'+'<li>ข้อ</li>'.repeat(8)+'</ul>',t:(d,w)=>[...d.querySelectorAll('li')].every((l,i)=>(w.getComputedStyle(l).color===rgb)===P[1](i+1)),sol:[`li:nth-child(${P[0]}){\n  color: ${nm};\n}`,'nth-child เลือกตามลำดับของลูก']}},
+k=>{const t=4+4*(k%4),r=4+4*(k/4|0);return{title:`badge มุมขวาบน ${t}/${r}`,task:`ให้ .card เป็น position: relative และ .badge เป็น absolute อยู่ top ${t}px right ${r}px`,start:'.card{\n  \n}\n.badge{\n  \n}',base:'<div class="card" style="padding:30px">การ์ด<span class="badge">NEW</span></div>',t:(d,w)=>{const p=cs(d,w,'.card'),b=cs(d,w,'.badge');return p.position==='relative'&&b.position==='absolute'&&b.top===t+'px'&&b.right===r+'px'},sol:[`.card{\n  position: relative;\n}\n.badge{\n  position: absolute;\n  top: ${t}px;\n  right: ${r}px;\n}`,'absolute อ้างอิงพ่อที่เป็น relative']}},
+k=>{const [nm,rgb]=CO[k%12],pr=k<12?'background-color':'color',cp=k<12?'backgroundColor':'color';return{title:`ตัวแปร --main: ${nm}`,task:`ประกาศ --main: ${nm} ใน :root แล้วใช้ var(--main) เป็น ${pr} ของ .box`,start:':root{\n  \n}\n.box{\n  \n}',base:'<div class="box">กล่อง</div>',t:(d,w,c)=>/:root\s*\{[^}]*--main\s*:/.test(c)&&/var\(\s*--main\s*\)/.test(c)&&cs(d,w,'.box')[cp]===rgb,sol:[`:root{\n  --main: ${nm};\n}\n.box{\n  ${pr}: var(--main);\n}`,'เปลี่ยนค่าที่เดียว ใช้ได้ทั้งหน้า']}}];
+const RF=[['factorial','if (n <= 1) return 1;\n  return n * factorial(n - 1);'],['fib','if (n < 2) return n;\n  return fib(n - 1) + fib(n - 2);'],['sumTo','if (n <= 0) return 0;\n  return n + sumTo(n - 1);'],['pow2','if (n == 0) return 1;\n  return 2 * pow2(n - 1);']];
+const IH={Animal:['Dog','Cat','Bird','Fish'],Shape:['Circle','Square','Triangle','Line'],Vehicle:['Car','Bike','Bus','Boat'],Person:['Student','Teacher','Doctor','Driver']};
+G.cpp.expert=[
+k=>{const f=RF[k%4],n=3+(k/4|0);return{title:`recursive ${f[0]}(${n})`,task:`เขียนฟังก์ชัน recursive int ${f[0]}(int n) ที่มี base case แล้วเรียกใช้ด้วยค่า ${n} และพิมพ์ผล`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>cnt1(c,RG('\\b'+f[0]+'\\s*\\(','g'))>=3&&/\bif\b/.test(c)&&RG('int\\s+'+f[0]+'\\s*\\(\\s*int\\s+n\\s*\\)').test(c)&&RG(f[0]+'\\s*\\(\\s*'+n+'\\s*\\)').test(c),sol:[`#include <iostream>\nusing namespace std;\n\nint ${f[0]}(int n) {\n  ${f[1]}\n}\n\nint main() {\n  cout << ${f[0]}(${n}) << endl;\n  return 0;\n}`,'ฟังก์ชัน recursive ต้องมี base case เพื่อหยุดการเรียกตัวเอง']}},
+k=>{const ty=['int','double','char','long'][k%4],nm=['swapv','exchange','swap2','flip'][(k/4|0)%4];return{title:`${nm} (${ty}&)`,task:`เขียน void ${nm}(${ty} &a, ${ty} &b) สลับค่าด้วย reference แล้วเรียกใช้ใน main`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>RG('void\\s+'+nm+'\\s*\\(\\s*'+ty+'\\s*&\\s*\\w+\\s*,\\s*'+ty+'\\s*&\\s*\\w+\\s*\\)').test(c)&&cnt1(c,RG('\\b'+nm+'\\s*\\(','g'))>=2&&/main/.test(c),sol:[`#include <iostream>\nusing namespace std;\n\nvoid ${nm}(${ty} &a, ${ty} &b) {\n  ${ty} t = a;\n  a = b;\n  b = t;\n}\n\nint main() {\n  ${ty} x = 1, y = 2;\n  ${nm}(x, y);\n  cout << x << y << endl;\n  return 0;\n}`,'เครื่องหมาย & ทำให้แก้ค่าตัวแปรต้นฉบับได้']}},
+k=>{const b=Object.keys(IH)[k%4],d=IH[b][(k/4|0)%4];return{title:`${d} สืบทอด ${b}`,task:`สร้างคลาส ${b} ที่มีเมธอด virtual speak() และคลาส ${d} ที่สืบทอดแบบ public แล้ว override speak()`,start:'#include <iostream>\nusing namespace std;\n\n',t:c=>RG('class\\s+'+b+'\\b').test(c)&&RG('class\\s+'+d+'\\s*:\\s*public\\s+'+b).test(c)&&/virtual/.test(c)&&/override/.test(c),sol:[`#include <iostream>\nusing namespace std;\n\nclass ${b} {\npublic:\n  virtual void speak() { cout << "${b}" << endl; }\n};\n\nclass ${d} : public ${b} {\npublic:\n  void speak() override { cout << "${d}" << endl; }\n};\n\nint main() {\n  ${d} x;\n  x.speak();\n  return 0;\n}`,'virtual + override ทำให้เรียกเมธอดของคลาสลูกได้ถูกตัว']}}];
+const EL=[];
+const el=(lang,n,title,task,start,req,sol,note,base='')=>EL.push({lang,d:'elite',id:`e-${lang}-${n}`,title,task,start,base,req,t:(...a)=>req.every(r=>{try{return !!r[1](...a)}catch(e){return false}}),sol:[sol,note]});
+const HS='<!DOCTYPE html>\n<html lang="th">\n<head>\n  <meta charset="utf-8">\n  <title></title>\n</head>\n<body>\n  \n</body>\n</html>';
+const HW=(t,b)=>`<!DOCTYPE html>\n<html lang="th">\n<head>\n  <meta charset="utf-8">\n  <title>${t}</title>\n</head>\n<body>\n${b}\n</body>\n</html>`;
+const lum=s=>{const m=(s||'').match(/\d+/g);return m?+m[0]+ +m[1]+ +m[2]:999};
+const hdr=d=>d.querySelectorAll('header nav a[href^="#"]').length>=3&&[...d.querySelectorAll('header nav a[href^="#"]')].every(a=>d.querySelector(a.getAttribute('href')));
+el('html',1,'เว็บ Portfolio ส่วนตัว','สร้างเว็บ Portfolio หนึ่งหน้าให้ครบตามรายการนี้',HS,[
+['มี title ที่ไม่ว่าง',d=>d.title.trim().length>0],
+['header มี nav ลิงก์ภายใน (#) อย่างน้อย 3 อัน และทุกลิงก์ชี้ไป id ที่มีจริง',hdr],
+['section id="about" มี h2, p และ img ที่มี alt',d=>{const s=d.querySelector('section#about');return !!s&&!!s.querySelector('h2')&&!!s.querySelector('p')&&!!s.querySelector('img[alt]:not([alt=""])')}],
+['section id="projects" มี article อย่างน้อย 3 อัน แต่ละอันมี h3',d=>d.querySelectorAll('section#projects article h3').length>=3],
+['section id="contact" มี form: label ผูกกับ input type email แบบ required, textarea และปุ่ม submit',d=>{const i=d.querySelector('form input[type=email][required][id]');return !!i&&!!d.querySelector(`label[for="${i.id}"]`)&&!!d.querySelector('form textarea')&&!!d.querySelector('form button[type=submit]')}],
+['footer มีเครื่องหมาย ©',d=>/©/.test(d.querySelector('footer')?.textContent||'')]],
+HW('Portfolio ของฉัน','  <header>\n    <h1>ชื่อของฉัน</h1>\n    <nav>\n      <a href="#about">เกี่ยวกับ</a>\n      <a href="#projects">ผลงาน</a>\n      <a href="#contact">ติดต่อ</a>\n    </nav>\n  </header>\n  <section id="about">\n    <h2>เกี่ยวกับฉัน</h2>\n    <img src="me.png" alt="รูปของฉัน">\n    <p>นักพัฒนาเว็บมือใหม่</p>\n  </section>\n  <section id="projects">\n    <h2>ผลงาน</h2>\n    <article><h3>งาน 1</h3><p>รายละเอียด</p></article>\n    <article><h3>งาน 2</h3><p>รายละเอียด</p></article>\n    <article><h3>งาน 3</h3><p>รายละเอียด</p></article>\n  </section>\n  <section id="contact">\n    <h2>ติดต่อ</h2>\n    <form>\n      <label for="em">อีเมล</label>\n      <input type="email" id="em" required>\n      <textarea name="msg"></textarea>\n      <button type="submit">ส่ง</button>\n    </form>\n  </section>\n  <footer>© 2026 ชื่อของฉัน</footer>'),'เว็บจริงต้องมีโครงสร้างครบ ลิงก์ในเมนูต้องชี้ไปส่วนที่มีอยู่จริง');
+el('html',2,'เว็บร้านกาแฟ','สร้างเว็บร้านกาแฟหนึ่งหน้าให้ครบตามรายการนี้',HS,[
+['มี title ที่ไม่ว่าง',d=>d.title.trim().length>0],
+['header มี h1 และ nav ที่มีลิงก์ภายใน (#) อย่างน้อย 3 อัน ชี้ไป id ที่มีจริง',d=>!!d.querySelector('header h1')&&hdr(d)],
+['section id="menu" มี table ที่มี thead, th และ tbody อย่างน้อย 4 แถว',d=>!!d.querySelector('section#menu table thead th')&&d.querySelectorAll('section#menu tbody tr').length>=4],
+['section id="gallery" มี figure อย่างน้อย 3 อัน แต่ละอันมี img ที่มี alt และ figcaption',d=>[...d.querySelectorAll('section#gallery figure')].filter(f=>f.querySelector('img[alt]:not([alt=""])')&&f.querySelector('figcaption')).length>=3],
+['section id="hours" มีรายการ ul หรือ dl อย่างน้อย 3 รายการ',d=>d.querySelectorAll('section#hours li,section#hours dt').length>=3],
+['section id="reserve" มี form: input type date แบบ required, input type number, select, ปุ่ม submit และทุกช่องมี label ผูกอยู่',d=>{const f='section#reserve form ';return !!d.querySelector(f+'input[type=date][required]')&&!!d.querySelector(f+'input[type=number]')&&!!d.querySelector(f+'select')&&!!d.querySelector(f+'button[type=submit]')&&[...d.querySelectorAll(f+'input,'+f+'select')].every(x=>x.id&&d.querySelector(`label[for="${x.id}"]`))}],
+['footer มี address',d=>!!d.querySelector('footer address')]],
+HW('ร้านกาแฟ Brew House','  <header>\n    <h1>Brew House</h1>\n    <nav><a href="#menu">เมนู</a> <a href="#gallery">แกลเลอรี</a> <a href="#reserve">จองโต๊ะ</a></nav>\n  </header>\n  <section id="menu">\n    <h2>เมนู</h2>\n    <table>\n      <thead><tr><th>เมนู</th><th>ราคา</th></tr></thead>\n      <tbody>\n        <tr><td>เอสเปรสโซ</td><td>50</td></tr>\n        <tr><td>ลาเต้</td><td>65</td></tr>\n        <tr><td>ชาเขียว</td><td>60</td></tr>\n        <tr><td>โกโก้</td><td>60</td></tr>\n      </tbody>\n    </table>\n  </section>\n  <section id="gallery">\n    <h2>แกลเลอรี</h2>\n    <figure><img src="a.jpg" alt="หน้าร้าน"><figcaption>หน้าร้าน</figcaption></figure>\n    <figure><img src="b.jpg" alt="บาร์กาแฟ"><figcaption>บาร์กาแฟ</figcaption></figure>\n    <figure><img src="c.jpg" alt="ลาเต้อาร์ต"><figcaption>ลาเต้อาร์ต</figcaption></figure>\n  </section>\n  <section id="hours">\n    <h2>เวลาเปิด</h2>\n    <ul><li>จันทร์-ศุกร์ 8:00-18:00</li><li>เสาร์ 9:00-20:00</li><li>อาทิตย์ 9:00-17:00</li></ul>\n  </section>\n  <section id="reserve">\n    <h2>จองโต๊ะ</h2>\n    <form>\n      <label for="d">วันที่</label><input type="date" id="d" required>\n      <label for="n">จำนวนคน</label><input type="number" id="n">\n      <label for="z">โซน</label><select id="z"><option>ในร้าน</option><option>นอกร้าน</option></select>\n      <button type="submit">จอง</button>\n    </form>\n  </section>\n  <footer><address>123 ถนนหลัก ขอนแก่น</address></footer>'),'ใช้แท็กเชิงความหมายและผูก label กับทุกช่องกรอก เหมือนเว็บร้านจริง');
+const LB='<header class="top"><b class="logo">Dojo</b><nav><a href="#">หน้าแรก</a><a href="#">คอร์ส</a><a href="#">ติดต่อ</a></nav></header><section class="hero"><h1>เรียนโค้ด</h1><p>เริ่มวันนี้</p><a class="cta" href="#">เริ่มเลย</a></section><section class="cards"><div class="card">A</div><div class="card">B</div><div class="card">C</div></section><footer>© 2026</footer>';
+el('css',1,'ตกแต่ง Landing Page','ตกแต่งหน้า Landing Page ที่ให้มา (ซ้ายมือคือ HTML สำเร็จรูป เขียนเฉพาะ CSS) ให้ครบตามรายการนี้','/* เขียน CSS ตรงนี้ */\n',[
+['ประกาศตัวแปรใน :root อย่างน้อย 2 ตัว และใช้ var()',(d,w,c)=>/:root\s*\{[^}]*--[\w-]+\s*:[^}]*--[\w-]+\s*:/.test(c)&&/var\(\s*--/.test(c)],
+['.top เป็น flex และ justify-content: space-between',(d,w)=>{const x=cs(d,w,'.top');return x.display==='flex'&&x.justifyContent==='space-between'}],
+['nav a ไม่มีขีดเส้นใต้ และมี padding ซ้าย',(d,w)=>{const x=cs(d,w,'nav a');return x.textDecorationLine==='none'&&parseFloat(x.paddingLeft)>0}],
+['.hero จัดข้อความกึ่งกลาง มี padding บนอย่างน้อย 40px และพื้นหลัง linear-gradient',(d,w)=>{const x=cs(d,w,'.hero');return x.textAlign==='center'&&parseFloat(x.paddingTop)>=40&&/linear-gradient/.test(x.backgroundImage)}],
+['.cards เป็น grid 3 คอลัมน์ และมี gap',(d,w,c)=>/\.cards\s*\{[^}]*display\s*:\s*grid/.test(c)&&/\.cards\s*\{[^}]*grid-template-columns\s*:\s*(repeat\(\s*3|[^;}]+\s[^;}]+\s[^;}]+)/.test(c)&&/\.cards\s*\{[^}]*gap\s*:/.test(c)],
+['.card มี padding, มุมโค้ง และ box-shadow',(d,w)=>{const x=cs(d,w,'.card');return parseFloat(x.paddingTop)>0&&parseFloat(x.borderTopLeftRadius)>0&&x.boxShadow!=='none'}],
+['.cta มีพื้นหลัง มุมโค้ง มี transition และ .cta:hover เปลี่ยนสี',(d,w,c)=>{const x=cs(d,w,'.cta');return x.backgroundColor!=='rgba(0, 0, 0, 0)'&&parseFloat(x.borderTopLeftRadius)>0&&parseFloat(x.transitionDuration)>0&&/\.cta\s*:hover\s*\{[^}]*(background|color)/.test(c)}],
+['มี @media (max-width) ให้ .cards เหลือ 1 คอลัมน์บนจอเล็ก',(d,w,c)=>/@media[^{]*max-width[^{]*\{[^}]*\.cards/.test(c)]],
+':root{\n  --bg: #0f172a;\n  --ac: #3b82f6;\n}\nbody{ margin: 0; background: var(--bg); color: white; font-family: sans-serif; }\n.top{ display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; }\nnav a{ color: white; text-decoration: none; padding: 0 12px; }\n.hero{ text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #1d4ed8, #0ea5e9); }\n.cta{ display: inline-block; background: var(--ac); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; transition: background 0.3s; }\n.cta:hover{ background: #1e40af; }\n.cards{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 24px; }\n.card{ background: #1e293b; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.4); }\n@media (max-width: 600px){\n  .cards{ grid-template-columns: 1fr; }\n}','เว็บจริงใช้ตัวแปร flex/grid และ media query ร่วมกัน',LB);
+const DB='<div class="app"><aside class="side"><a>Home</a><a>Stats</a><a>Settings</a></aside><main class="content"><h1>Dashboard</h1><div class="stats"><div class="stat"><b>120</b><span>Users</span></div><div class="stat"><b>45</b><span>Orders</span></div><div class="stat"><b>9</b><span>Issues</span></div></div><table class="tbl"><tr><th>ชื่อ</th><th>สถานะ</th></tr><tr><td>A</td><td>OK</td></tr><tr><td>B</td><td>OK</td></tr><tr><td>C</td><td>OK</td></tr></table></main></div>';
+el('css',2,'ตกแต่งหน้า Dashboard','ตกแต่งหน้า Dashboard ที่ให้มา (เขียนเฉพาะ CSS) ให้ครบตามรายการนี้','/* เขียน CSS ตรงนี้ */\n',[
+['.app เป็น grid 2 คอลัมน์ (แถบข้างกับเนื้อหา)',(d,w)=>{const x=cs(d,w,'.app');return x.display==='grid'&&x.gridTemplateColumns.trim().split(/\s+/).length===2}],
+['.side มีพื้นหลังสีเข้ม',(d,w)=>lum(cs(d,w,'.side').backgroundColor)<300],
+['.side a เป็น block และมี padding',(d,w)=>{const x=cs(d,w,'.side a');return x.display==='block'&&parseFloat(x.paddingTop)>0}],
+['.stats จัดเรียงเป็นแถวด้วย flex หรือ grid และมี gap',(d,w)=>{const x=cs(d,w,'.stats');return (x.display==='flex'||x.display==='grid')&&parseFloat(x.columnGap)>0}],
+['.stat มีมุมโค้งและ box-shadow',(d,w)=>{const x=cs(d,w,'.stat');return parseFloat(x.borderTopLeftRadius)>0&&x.boxShadow!=='none'}],
+['.tbl กว้าง 100% และ border-collapse: collapse',(d,w,c)=>/\.tbl\s*\{[^}]*width\s*:\s*100%/.test(c)&&cs(d,w,'.tbl').borderCollapse==='collapse'],
+['แถวสลับสีด้วย tr:nth-child(even)',(d,w,c)=>/tr\s*:nth-child\(\s*(even|2n)/.test(c)],
+['มี tr:hover เปลี่ยนสีพื้นหลัง',(d,w,c)=>/tr\s*:hover\s*\{[^}]*background/.test(c)]],
+'.app{ display: grid; grid-template-columns: 200px 1fr; min-height: 300px; }\n.side{ background: #0b1b44; padding: 16px; }\n.side a{ display: block; padding: 10px; color: white; }\n.content{ padding: 20px; }\n.stats{ display: flex; gap: 16px; margin-bottom: 20px; }\n.stat{ flex: 1; background: white; padding: 16px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.15); }\n.tbl{ width: 100%; border-collapse: collapse; }\n.tbl td, .tbl th{ padding: 8px; border-bottom: 1px solid #ccc; }\n.tbl tr:nth-child(even){ background: #f1f5f9; }\n.tbl tr:hover{ background: #dbeafe; }','หน้า Dashboard ใช้ grid แบ่งแถบข้าง flex จัดการ์ดสถิติ และตารางที่อ่านง่าย',DB);
+const INC=c=>/#include\s*<iostream>/.test(c);
+el('cpp',1,'โปรแกรมจัดการสินค้า','เขียนโปรแกรมคอนโซลจัดการสินค้าในร้านให้ครบตามรายการนี้','#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\n',[
+['include iostream, vector และ string',c=>INC(c)&&/#include\s*<vector>/.test(c)&&/#include\s*<string>/.test(c)],
+['struct หรือ class ชื่อ Product ที่มีสมาชิกอย่างน้อย 3 ตัว',c=>/(struct|class)\s+Product\s*\{/.test(c)&&cnt1(c,/\b(int|double|float|string)\s+\w+\s*;/g)>=3],
+['void addProduct รับ vector<Product> แบบ reference (&)',c=>/void\s+addProduct\s*\(\s*vector\s*<\s*Product\s*>\s*&/.test(c)],
+['ฟังก์ชัน showAll แสดงสินค้าด้วย range-based for',c=>/showAll\s*\(/.test(c)&&/for\s*\(\s*(const\s+)?(auto|Product)\s*&?\s*\w+\s*:/.test(c)],
+['double totalValue คืนผลรวม price * qty',c=>/double\s+totalValue\s*\(/.test(c)&&/\*/.test(c)&&/return/.test(c)],
+['main มีเมนูวนซ้ำด้วย do-while หรือ while และรับค่าด้วย cin',c=>/(do\s*\{|while\s*\()/.test(c)&&/cin\s*>>/.test(c)],
+['ใช้ switch หรือ if-else if จัดการเมนู',c=>/switch\s*\(|else\s+if/.test(c)]],
+'#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nstruct Product {\n  string name;\n  double price;\n  int qty;\n};\n\nvoid addProduct(vector<Product> &items, string name, double price, int qty) {\n  items.push_back({name, price, qty});\n}\n\nvoid showAll(const vector<Product> &items) {\n  for (const auto &p : items) {\n    cout << p.name << " " << p.price << " x" << p.qty << endl;\n  }\n}\n\ndouble totalValue(const vector<Product> &items) {\n  double sum = 0;\n  for (const auto &p : items) sum += p.price * p.qty;\n  return sum;\n}\n\nint main() {\n  vector<Product> items;\n  int choice;\n  do {\n    cout << "1.Add 2.Show 3.Total 0.Exit: ";\n    cin >> choice;\n    switch (choice) {\n      case 1: addProduct(items, "Pen", 12.5, 10); break;\n      case 2: showAll(items); break;\n      case 3: cout << totalValue(items) << endl; break;\n    }\n  } while (choice != 0);\n  return 0;\n}','แยกฟังก์ชันตามหน้าที่ และใช้เมนูวนซ้ำเหมือนโปรแกรมจริง');
+el('cpp',2,'เกมทายตัวเลข','เขียนเกมทายตัวเลขแบบคอนโซลให้ครบตามรายการนี้','#include <iostream>\n#include <cstdlib>\n#include <ctime>\nusing namespace std;\n\n',[
+['ใช้ srand(time(0)) และ rand() สุ่มตัวเลข',c=>/srand\s*\(\s*time\s*\(/.test(c)&&/rand\s*\(\s*\)/.test(c)],
+['ฟังก์ชัน int randomNumber(int lo, int hi) คืนค่าในช่วงที่กำหนด',c=>/int\s+randomNumber\s*\(\s*int\s+\w+\s*,\s*int\s+\w+\s*\)/.test(c)&&/return[^;]*rand/.test(c)],
+['วนทายด้วย while และรับค่าด้วย cin',c=>/while\s*\(/.test(c)&&/cin\s*>>/.test(c)],
+['แจ้งผลด้วย "Too high" และ "Too low"',c=>/"Too high"/.test(c)&&/"Too low"/.test(c)],
+['นับจำนวนครั้งที่ทายด้วย ++ และจำกัดจำนวนครั้งในเงื่อนไข while',c=>/\+\+|\+=\s*1/.test(c)&&/while\s*\([^)]*(<|<=)\s*\d+/.test(c)],
+['ถามเล่นอีกครั้งด้วยตัวแปร char และตรวจ \'y\'',c=>/char\s+\w+/.test(c)&&/'y'/.test(c)]],
+'#include <iostream>\n#include <cstdlib>\n#include <ctime>\nusing namespace std;\n\nint randomNumber(int lo, int hi) {\n  return lo + rand() % (hi - lo + 1);\n}\n\nint main() {\n  srand(time(0));\n  char again = \'y\';\n  while (again == \'y\') {\n    int secret = randomNumber(1, 100), guess = 0, tries = 0;\n    while (guess != secret && tries < 7) {\n      cout << "Guess: ";\n      cin >> guess;\n      tries++;\n      if (guess > secret) cout << "Too high" << endl;\n      else if (guess < secret) cout << "Too low" << endl;\n      else cout << "Correct!" << endl;\n    }\n    cout << "Play again? (y/n): ";\n    cin >> again;\n  }\n  return 0;\n}','ลูปซ้อนลูป: วงนอกคือเล่นอีกครั้ง วงในคือการทาย');
+const POOL={},ALL={};
+['html','css','cpp'].forEach(l=>{POOL[l]={};LV.forEach(d=>{const T=G[l][d],hand=CH.filter(c=>c.lang===l&&c.d===d).concat(EL.filter(c=>c.lang===l&&c.d===d)),gen=Array.from({length:d==='elite'?0:48},(_,n)=>({lang:l,d,id:`g-${l}-${d}-${n}`,...T[n%T.length](n/T.length|0)}));POOL[l][d]=hand.concat(gen);POOL[l][d].forEach(c=>ALL[c.id]=c)})});
+const Q=5,cnt=(l,d)=>POOL[l][d].filter(c=>S.s[c.id]).length,passed=(l,d)=>cnt(l,d)>=(d==='elite'?1:Q);
+const lockd=(l,d)=>d==='elite'&&!passed(l,'expert'),nextLv=l=>LV.find(x=>!passed(l,x)&&!lockd(l,x))||'elite';
+const pick=(l,d)=>{const p=POOL[l][d];let u=p.filter(c=>!S.s[c.id]&&c.id!==cur);if(!u.length)u=p.filter(c=>c.id!==cur);if(!u.length)u=p;return u[Math.random()*u.length|0]};
+function reqHtml(c,a){if(!c.req)return '';return '<ul class="rq">'+c.req.map(r=>{let o=false;try{o=!!r[1](...a)}catch(e){}return `<li>${o?'✅':'⬜'} ${r[0].replace(/&/g,'&amp;').replace(/</g,'&lt;')}</li>`}).join('')+'</ul>'}
+const LN={html:'HTML',css:'CSS',cpp:'C++'},DN={easy:'ง่าย',medium:'ปานกลาง',hard:'ยาก',expert:'ยากมาก',elite:'Elite'},XP={easy:10,medium:25,hard:50,expert:100,elite:300};
+const RANKS=['มือใหม่','ผู้ฝึกตน','ช่างโค้ด','ปรมาจารย์','ตำนาน'];
+let S={s:{},xp:0,p:0},lang='html',cur=0;
+try{const r=localStorage.getItem('codedojo');if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{if(user)push();else{try{localStorage.setItem('codedojo',JSON.stringify(S))}catch(e){}}};
+const hardDone=l=>passed(l,'hard');
+const cppOpen=()=>hardDone('html')&&hardDone('css');
+const canPrestige=cppOpen();
+const draft={},viewed={};let view='menu';
+
+function render(){
+  $('#rank').textContent='ยศ: '+RANKS[Math.min(S.p,RANKS.length-1)];
+  $('#stars').textContent=S.p?'★'.repeat(S.p):'';
+  $('#xp').textContent='XP '+S.xp+(S.p?' (×'+(1+S.p*.5)+')':'');
+  const pb=$('#pbtn');pb.disabled=!cppOpen();
+  pb.title=cppOpen()?'กด 2 ครั้งเพื่อรีเซ็ตความคืบหน้า แลกกับ ★ 1 ดวง ยศใหม่ และ XP เพิ่ม 50% ต่อด่าน':'ต้องผ่านด่านยากของ HTML และ CSS ก่อน';
+  updAuth();pb.textContent='★ Prestige';$('#mbtn').hidden=view==='menu';$('#menu').hidden=view!=='menu';$('#play').hidden=view!=='play';
+  $('#kb').hidden=view!=='kb';
+  if(view==='menu'){menu();return}
+  if(view==='kb'){kbPage();return}
+  $('#langs').innerHTML=Object.keys(LN).map(l=>{const lk=l==='cpp'&&!cppOpen();return `<button class="tab" role="tab" data-l="${l}" aria-selected="${l===lang}" ${lk?'disabled':''}>${lk?'🔒 ':''}${LN[l]}</button>`}).join('');
+  let h='<button class="rnd" data-r="auto">🎲 สุ่มข้อ (ง่าย→ยาก)</button>';
+  if(!cppOpen())h+='<p class="lock">C++ จะปลดล็อกเมื่อผ่านด่านยากของ HTML และ CSS ทั้งสองภาษา</p>';
+  LV.forEach(d=>{
+    if(lockd(lang,d)){h+=`<div class="lv">${DN[d]} <small>🔒 ผ่านด่านยากมากก่อน</small></div>`;return}
+    const n=cnt(lang,d),q=d==='elite'?1:Q,on=ALL[cur].lang===lang&&ALL[cur].d===d;
+    h+=`<div class="lv">${DN[d]} <small>${Math.min(n,q)}/${q} · ${passed(lang,d)?'ผ่านแล้ว ✓':'+'+XP[d]+' XP'}</small></div><button class="ch" data-r="${d}" ${on?'aria-current="true"':''}><span>${d==='elite'?'เลือกโปรเจกต์':'สุ่มโจทย์'}${DN[d]}</span><span class="note">ทำแล้ว ${n}/${POOL[lang][d].length}</span></button>`;
+  });
+  h+='<p class="note">ผ่านแต่ละด่านเมื่อทำถูก 5 ข้อ (Elite ทำให้ครบ 1 โปรเจกต์) ด่าน Elite ปลดล็อกเมื่อผ่านด่านยากมากของภาษานั้น</p>';
+  $('#list').innerHTML=h;
+  const c=ALL[cur];
+  $('#work').innerHTML=`<h2>${c.title}</h2><span class="tag">${LN[c.lang]} · ${DN[c.d]}</span>
+  <p></p><div class="ide"><div class="tb"><i></i><i></i><i></i><span>${c.lang==='html'?'index.html':c.lang==='css'?'style.css':'main.cpp'}</span></div>
+  <div class="ed"${c.d==='elite'?' style="height:430px"':''}><pre id="ln" aria-hidden="true"></pre><textarea id="ed" spellcheck="false" wrap="off" aria-label="ช่องเขียนโค้ด"></textarea></div></div>
+  <div class="bar"><button id="run">ตรวจคำตอบ</button><button id="nxt">สุ่มข้อใหม่</button><button id="ans">ดูเฉลย</button><button id="rst">คืนค่าเริ่มต้น</button></div>
+  <div id="msg" role="status"></div>
+  <div id="sol" hidden></div>
+  ${c.lang==='cpp'?'<p class="note">C++ ตรวจจากโครงสร้างโค้ด (ไม่ได้คอมไพล์จริงในเบราว์เซอร์) ดังนั้นควรทดลองรันในโปรแกรมของคุณด้วย</p>':'<iframe id="pv" title="ตัวอย่างผลลัพธ์" sandbox="allow-same-origin"'+(c.d==='elite'?' style="height:340px"':'')+'></iframe>'}`;
+  $('#work p').textContent=c.task+(c.req?'\n'+c.req.map(r=>'• '+r[0]).join('\n'):'');
+  const ed=$('#ed');ed.value=draft[c.id]??c.start;
+  const ln=$('#ln'),upl=()=>{ln.textContent=Array.from({length:ed.value.split('\n').length},(_,i)=>i+1).join('\n')};
+  ed.oninput=()=>{draft[c.id]=ed.value;upl();if(c.lang!=='cpp')preview()};
+  ed.onscroll=()=>{ln.scrollTop=ed.scrollTop};upl();
+  ed.onkeydown=e=>editorKeys(e,ed,c.lang);
+  $('#rst').onclick=()=>{delete draft[c.id];render()};
+  $('#run').onclick=check;
+  $('#nxt').onclick=()=>{cur=pick(c.lang,c.d).id;render()};
+  const showSol=()=>{
+    const so=$('#sol');
+    if(!S.s[c.id])viewed[c.id]=true;
+    so.innerHTML='<b>เฉลย</b><pre></pre><p class="note"></p><button id="use">นำไปใส่ในช่องโค้ด</button>';
+    so.querySelector('pre').textContent=c.sol[0];so.querySelector('.note').textContent=c.sol[1];
+    so.hidden=false;$('#ans').textContent='ซ่อนเฉลย';
+    $('#use').onclick=()=>{ed.value=c.sol[0];ed.dispatchEvent(new Event('input'))};
+  };
+  $('#ans').onclick=()=>{
+    const so=$('#sol');
+    if(!so.hidden){so.hidden=true;$('#ans').textContent='ดูเฉลย';return}
+    if(!viewed[c.id]&&!S.s[c.id]){
+      so.innerHTML='<p>ลองคิดเองก่อนไหม? ถ้าดูเฉลยแล้วผ่านด่านนี้ จะได้ XP ครึ่งเดียว</p><button id="go">ดูเฉลยเลย</button>';
+      so.hidden=false;$('#ans').textContent='ยกเลิก';$('#go').onclick=showSol;return;
+    }
+    showSol();
+  };
+  if(c.lang!=='cpp')preview();
+}
+function doc(c,code){return c.lang==='html'?code:'<style>'+code+'</style>'+c.base}
+function preview(){const c=ALL[cur];$('#pv').srcdoc=doc(c,$('#ed').value)}
+function check(){
+  const c=ALL[cur],code=$('#ed').value,m=$('#msg');
+  const done=ok=>{
+    if(!ok){m.className='erc';m.textContent='ยังไม่ถูก ลองอ่านโจทย์อีกครั้งแล้วแก้โค้ด';return}
+    if(S.s[c.id]){m.className='okc';m.textContent='ถูกต้อง (ผ่านด่านนี้ไปแล้ว)';return}
+    const g=Math.round(XP[c.d]*(1+S.p*.5)*(viewed[c.id]?.5:1));S.s[c.id]=true;S.xp+=g;save();
+    render();$('#msg').className='okc';$('#msg').textContent='ถูกต้อง! ได้ +'+g+' XP'+(cppOpen()&&c.d==='hard'&&c.lang!=='cpp'?' · ปลดล็อก C++ และ Prestige แล้ว':'');
+  };
+  if(c.lang==='cpp'){let ok=false;try{ok=c.t(code)}catch(e){}const rq=reqHtml(c,[code]);done(ok);$('#msg').insertAdjacentHTML('beforeend',rq);return}
+  const f=$('#pv');f.srcdoc=doc(c,code);
+  f.onload=()=>{let ok=false;try{ok=c.t(f.contentDocument,f.contentWindow,code)}catch(e){}f.onload=null;const rq=reqHtml(c,[f.contentDocument,f.contentWindow,code]);done(ok);$('#msg').insertAdjacentHTML('beforeend',rq)};
+}
+function ins(ed,t,back=0){
+  let ok=false;try{ok=document.execCommand('insertText',false,t)}catch(x){}
+  if(!ok){const a=ed.selectionStart;ed.setRangeText(t,a,ed.selectionEnd,'end');ed.dispatchEvent(new Event('input'))}
+  if(back)ed.setSelectionRange(ed.selectionStart-back,ed.selectionStart-back);
+}
+const PR={'(':')','[':']','{':'}','"':'"',"'":"'"},VOID=/^(br|hr|img|input|meta|link|area|base|col|embed|source|track|wbr)$/i;
+function editorKeys(e,ed,lang){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const v=ed.value,a=ed.selectionStart,b=ed.selectionEnd,k=e.key,pre=v[a-1],nx=v[b];
+  if(k==='Tab'){
+    e.preventDefault();
+    if(!e.shiftKey&&a===b){ins(ed,'  ');return}
+    const s=v.lastIndexOf('\n',a-1)+1,blk=v.slice(s,b),n=e.shiftKey?blk.replace(/^ {1,2}/gm,''):blk.replace(/^/gm,'  ');
+    ed.setSelectionRange(s,b);ins(ed,n);
+    if(a===b){const x=Math.max(s,a-(blk.length-n.length));ed.setSelectionRange(x,x)}else ed.setSelectionRange(s,s+n.length);
+    return;
+  }
+  if(k==='Enter'){
+    e.preventDefault();
+    const s=v.lastIndexOf('\n',a-1)+1,ln=v.slice(s,a),ind=ln.match(/^\s*/)[0],m=ln.match(/<([a-z][\w-]*)[^<>]*>\s*$/i);
+    const tagOpen=lang==='html'&&m&&!VOID.test(m[1])&&!/\/>\s*$/.test(ln)&&!/<\/[^>]*>\s*$/.test(ln);
+    const open=/[{(\[]\s*$/.test(ln)||tagOpen;
+    const between=open&&b===a&&((/[{(\[]\s*$/.test(ln)&&/^[})\]]/.test(v.slice(b)))||(tagOpen&&/^<\//.test(v.slice(b))));
+    if(between)ins(ed,'\n'+ind+'  \n'+ind,1+ind.length);
+    else ins(ed,'\n'+ind+(open?'  ':''));
+    return;
+  }
+  if(k==='Backspace'&&a===b&&pre in PR&&PR[pre]===nx){e.preventDefault();ed.setSelectionRange(a-1,a+1);ins(ed,'');return}
+  if(a===b&&')]}"\''.includes(k)&&nx===k){e.preventDefault();ed.setSelectionRange(a+1,a+1);return}
+  if(k==='>'&&lang==='html'&&a===b){
+    const m=v.slice(0,a).match(/<([a-z][\w-]*)(\s[^<>]*)?$/i);
+    if(m&&!VOID.test(m[1])&&!/\/$/.test(m[0])){e.preventDefault();ins(ed,'></'+m[1]+'>',m[1].length+3);return}
+  }
+  if(k in PR){
+    const q=k==='"'||k==="'";
+    if(a!==b){e.preventDefault();ins(ed,k+v.slice(a,b)+PR[k]);return}
+    if(q&&(/\w/.test(pre||'')||/\w/.test(nx||'')))return;
+    if(!q&&nx&&/\w/.test(nx))return;
+    e.preventDefault();ins(ed,k+PR[k],1);
+  }
+}
+const KBR={
+html:`!DOCTYPE§โครงสร้าง§ประกาศว่าเอกสารเป็น HTML5 ต้องอยู่บรรทัดแรกสุด§เขียนว่า <!DOCTYPE html>¦ถ้าไม่ใส่ เบราว์เซอร์จะเข้าโหมด quirks ที่แสดงผลเพี้ยน¦ไม่ใช่แท็ก จึงไม่มีแท็กปิด
+html§โครงสร้าง§แท็กรากของเอกสาร ครอบทุกอย่าง§lang="th" บอกภาษาให้โปรแกรมอ่านหน้าจอ เครื่องมือแปล และ Google¦ลูกตรงมีได้แค่ head กับ body
+head§โครงสร้าง§ข้อมูลของหน้าที่ไม่แสดงบนจอ§ใส่ title meta link style script ได้¦ไม่ควรใส่เนื้อหาที่ผู้ใช้เห็นไว้ในนี้
+meta§โครงสร้าง§ข้อมูลกำกับหน้า (ไม่มีแท็กปิด)§charset="utf-8" ทำให้แสดงภาษาไทยถูกต้อง¦name="viewport" content="width=device-width, initial-scale=1" ให้มือถือแสดงพอดีจอ¦name="description" content="..." ข้อความที่แสดงใต้ชื่อในผลค้นหา
+title§โครงสร้าง§ชื่อหน้า§แสดงบนแท็บเบราว์เซอร์ บุ๊กมาร์ก และผลค้นหา¦มีได้หนึ่งอันใน head¦ควรไม่ซ้ำกันในแต่ละหน้า
+link§โครงสร้าง§เชื่อมไฟล์ภายนอกเข้ากับหน้า (ไม่มีแท็กปิด)§rel="stylesheet" href="style.css" โหลดไฟล์ CSS¦rel="icon" ใส่ไอคอนบนแท็บ
+script§โครงสร้าง§ใส่หรือโหลด JavaScript§src="app.js" โหลดไฟล์ภายนอก¦defer รอ HTML โหลดเสร็จก่อนจึงรัน (แนะนำ)¦async รันทันทีที่โหลดเสร็จ ลำดับไม่แน่นอน
+h1–h6§ข้อความ§หัวข้อ 6 ระดับ§h1 สำคัญสุด ควรมีเพียง 1 อันต่อหน้า¦อย่าข้ามระดับ เช่น h1 แล้วไป h3¦ใช้บอกโครงสร้าง ถ้าอยากแค่ตัวใหญ่ให้ใช้ CSS font-size
+p§ข้อความ§ย่อหน้า§เบราว์เซอร์เว้นระยะบนล่างให้เอง¦ช่องว่างและการขึ้นบรรทัดในโค้ดหลายอันจะถูกรวมเป็นช่องเดียว¦ข้างในใส่ได้เฉพาะข้อความและแท็กแบบ inline (a, strong, em, span)
+br และ hr§ข้อความ§br ขึ้นบรรทัดใหม่ hr เส้นคั่นเนื้อหา§ทั้งคู่ไม่มีแท็กปิด¦br เหมาะกับที่อยู่หรือกลอน ไม่ควรใช้เว้นระยะ ให้ใช้ margin¦hr ใช้คั่นเมื่อเปลี่ยนเรื่อง
+strong และ em§ข้อความ§strong = สำคัญมาก (ตัวหนา) em = เน้นน้ำเสียง (ตัวเอียง)§โปรแกรมอ่านหน้าจอเปลี่ยนน้ำเสียงตาม¦ต่างจาก b และ i ที่เป็นเพียงรูปแบบ ไม่มีความหมายเพิ่ม
+a§ข้อความ§ลิงก์§href ปลายทาง: URL เต็ม, #id (เลื่อนในหน้าเดียวกัน), mailto:อีเมล, tel:เบอร์¦target="_blank" เปิดแท็บใหม่ ควรใส่ rel="noopener noreferrer" คู่กัน¦download ให้ดาวน์โหลดไฟล์แทนการเปิด¦ข้อความลิงก์ควรบอกปลายทาง ไม่ใช่แค่ "คลิกที่นี่"
+span§ข้อความ§กล่อง inline ทั่วไป§ไม่ขึ้นบรรทัดใหม่ ไม่มีความหมายในตัว¦ใช้ครอบข้อความบางส่วนเพื่อใส่ class หรือ style
+blockquote, code, pre§ข้อความ§blockquote คำพูดอ้างอิง code โค้ดสั้น pre คงช่องว่างและบรรทัดตามที่พิมพ์§blockquote มี cite="URL" บอกแหล่งที่มา¦pre + code คู่กันสำหรับโค้ดหลายบรรทัด¦ในโค้ดต้องเขียน < เป็น &lt; ไม่เช่นนั้นเบราว์เซอร์คิดว่าเป็นแท็ก
+img§สื่อ§รูปภาพ (ไม่มีแท็กปิด)§src ที่อยู่ไฟล์ (ต้องมี)¦alt ข้อความแทนรูป จำเป็นต่อการเข้าถึงและ SEO รูปตกแต่งให้ใส่ alt="" ว่างไว้¦width และ height กันหน้ากระโดดตอนรูปโหลด¦loading="lazy" โหลดเมื่อเลื่อนใกล้ถึง¦srcset ให้เลือกรูปตามขนาดจอ
+figure และ figcaption§สื่อ§กลุ่มสื่อพร้อมคำบรรยาย§figure ครอบรูป ตาราง หรือโค้ดที่ถูกอ้างถึง¦figcaption คำบรรยาย ต้องเป็นลูกคนแรกหรือคนสุดท้ายของ figure
+video และ audio§สื่อ§เล่นวิดีโอและเสียง§controls แสดงปุ่มควบคุม¦autoplay ต้องใส่ muted ร่วมด้วยจึงทำงานบนเบราว์เซอร์ส่วนใหญ่¦loop เล่นซ้ำ, poster รูปปกวิดีโอ, preload ควบคุมการโหลดล่วงหน้า¦ใส่ source หลายไฟล์เพื่อรองรับหลายฟอร์แมต
+iframe§สื่อ§ฝังหน้าเว็บอื่นไว้ในหน้า§src ที่อยู่หน้าที่ฝัง¦sandbox จำกัดสิทธิ์ของหน้าที่ฝัง เพื่อความปลอดภัย¦title จำเป็นต่อการเข้าถึง¦บางเว็บห้ามฝัง (ตั้ง X-Frame-Options)
+ul, ol, li§รายการ§ลิสต์ ul = จุด ol = ตัวเลข li = หนึ่งข้อ§ลูกตรงของ ul/ol ต้องเป็น li เท่านั้น¦ol มี start กำหนดเลขเริ่ม, reversed นับถอยหลัง, type ชนิดเลข (1 a A i I)¦ลิสต์ซ้อนได้ โดยใส่ ul ไว้ใน li¦ลบจุดด้วย CSS list-style: none
+dl, dt, dd§รายการ§รายการนิยาม คำศัพท์คู่คำอธิบาย§dt = คำ dd = คำอธิบาย¦dt หนึ่งตัวมี dd ได้หลายตัว¦เหมาะกับคำศัพท์ หรือข้อมูลคู่ชื่อ-ค่า
+table§ตาราง§ตารางข้อมูล (ไม่ใช่ตัวจัดเลย์เอาต์)§โครงเต็ม: caption ชื่อตาราง, thead, tbody, tfoot¦tr = แถว¦ถ้าไม่ใส่ tbody เบราว์เซอร์สร้างให้เอง¦ตกแต่งเส้นด้วย CSS border-collapse: collapse
+th และ td§ตาราง§th เซลล์หัวข้อ td เซลล์ข้อมูล§colspan="n" รวมเซลล์แนวนอน rowspan="n" รวมแนวตั้ง¦th ใส่ scope="col" หรือ "row" บอกว่าเป็นหัวของคอลัมน์หรือแถว¦headers เชื่อมเซลล์กับหัวข้อในตารางซับซ้อน
+form§ฟอร์ม§ครอบช่องกรอกข้อมูลที่ส่งพร้อมกัน§action ปลายทางที่รับข้อมูล¦method="get" ต่อท้าย URL (เช่นค้นหา) / "post" ส่งในเนื้อคำขอ (ข้อมูลสำคัญ)¦novalidate ปิดการตรวจของเบราว์เซอร์¦enctype="multipart/form-data" จำเป็นเมื่ออัปโหลดไฟล์
+label§ฟอร์ม§ป้ายชื่อของช่องกรอก§for="id" ผูกกับช่องที่มี id ตรงกัน หรือครอบช่องไว้ข้างในก็ได้¦กดที่ label แล้วโฟกัสช่องนั้นทันที ช่วยคนกดยากและผู้ใช้โปรแกรมอ่านหน้าจอ¦ช่องหนึ่งมี label ได้หลายอัน
+input§ฟอร์ม§ช่องรับข้อมูล (ไม่มีแท็กปิด) พฤติกรรมเปลี่ยนตาม type§type: text, email, password, number, tel, url, search, date, time, month, week, datetime-local, color, range, file, checkbox, radio, hidden, submit, reset¦ตรวจค่า: required, min, max, step, minlength, maxlength, pattern (regex)¦ช่วยผู้ใช้: placeholder, autofocus, autocomplete, readonly, disabled¦name จำเป็นต้องมีถึงจะถูกส่งไปกับฟอร์ม¦radio ที่ name เดียวกันเลือกได้ทีละตัว
+textarea§ฟอร์ม§ช่องข้อความหลายบรรทัด§rows และ cols กำหนดขนาดเริ่มต้น (ปรับต่อด้วย CSS)¦maxlength จำกัดความยาว¦ค่าตั้งต้นเขียนระหว่างแท็กเปิดปิด ไม่ใช่ value
+select, option, optgroup§ฟอร์ม§เมนูเลือกแบบ dropdown§option value="..." ค่าที่ส่ง ข้อความข้างในคือสิ่งที่ผู้ใช้เห็น¦selected เลือกไว้ล่วงหน้า¦multiple เลือกได้หลายอัน¦optgroup label="..." จัดตัวเลือกเป็นกลุ่ม
+button§ฟอร์ม§ปุ่ม§type="submit" ส่งฟอร์ม (ค่าเริ่มต้น), "reset" ล้างค่า, "button" ไม่ทำอะไร ใช้คู่ JavaScript¦disabled ปิดการกด¦ใส่รูปหรือแท็กอื่นข้างในได้ ต่างจาก input type="button"¦ควรระบุ type เสมอ กันส่งฟอร์มโดยไม่ตั้งใจ
+fieldset§ฟอร์ม§จัดกลุ่มช่องที่เกี่ยวข้องกันในฟอร์ม§เบราว์เซอร์วาดกรอบรอบกลุ่ม (ปรับด้วย CSS border)¦disabled ปิดทุกช่องในกลุ่มพร้อมกัน¦เหมาะกับชุด radio หรือ checkbox ของคำถามเดียวกัน¦มี name และ form ผูกกับฟอร์มที่อยู่นอกกลุ่มได้
+legend§ฟอร์ม§หัวข้อของ fieldset§ต้องเป็นลูกคนแรกของ fieldset¦แสดงพาดอยู่บนเส้นกรอบ¦โปรแกรมอ่านหน้าจอใช้อ่านเป็นชื่อกลุ่มก่อนอ่านแต่ละช่อง
+datalist§ฟอร์ม§รายการคำแนะนำให้ช่อง input§ผูกกับ input ด้วย list="id ของ datalist"¦ผู้ใช้พิมพ์ค่าอื่นเองได้ ต่างจาก select ที่ต้องเลือกจากรายการ
+progress และ meter§ฟอร์ม§แถบความคืบหน้า และมาตรวัดค่าในช่วง§progress มี value และ max (ไม่ใส่ value = กำลังโหลดไม่ทราบเวลา)¦meter มี min max low high optimum เปลี่ยนสีตามช่วง¦ข้อความข้างในใช้เป็นตัวสำรอง
+header และ footer§โครงสร้างหน้า§ส่วนหัวและส่วนท้ายของหน้าหรือของ section§header มักมีโลโก้ ชื่อ และ nav¦footer มีลิขสิทธิ์ ลิงก์รอง ข้อมูลติดต่อ¦มีได้หลายอัน ใส่ไว้ใน article หรือ section ก็ได้
+nav§โครงสร้างหน้า§กลุ่มลิงก์นำทางหลัก§ใช้กับเมนูหลักหรือสารบัญ ไม่ต้องครอบทุกกลุ่มลิงก์¦มีได้หลายอัน แยกด้วย aria-label¦โปรแกรมอ่านหน้าจอข้ามไปที่ nav ได้โดยตรง
+main§โครงสร้างหน้า§เนื้อหาหลักของหน้า§มีได้เพียง 1 อันต่อหน้า (ที่มองเห็น)¦ห้ามอยู่ใน header, nav, aside, footer¦ผู้ใช้โปรแกรมอ่านหน้าจอใช้กระโดดข้ามเมนูมาที่เนื้อหา
+section, article, aside§โครงสร้างหน้า§section หมวดเนื้อหา article เนื้อหาที่แยกอ่านได้เอง aside เนื้อหาเสริม§section ควรมีหัวข้อ (h2–h6) ประจำ¦article เช่น โพสต์ ข่าว การ์ดสินค้า¦aside เช่น แถบข้าง โฆษณา ลิงก์ที่เกี่ยวข้อง
+details และ summary§โครงสร้างหน้า§กล่องพับ/ขยายได้โดยไม่ต้องเขียน JavaScript§summary = หัวข้อที่กดได้ ต้องเป็นลูกคนแรก¦open เปิดไว้ตั้งแต่เริ่ม¦name เดียวกันทำให้เปิดได้ทีละกล่อง (แบบ accordion ในเบราว์เซอร์ใหม่)
+address และ time§โครงสร้างหน้า§address ข้อมูลติดต่อ time วันที่/เวลา§time datetime="2026-10-07" ให้เครื่องอ่านค่าได้ ข้อความข้างในเขียนอย่างไรก็ได้¦address ใช้กับข้อมูลติดต่อเจ้าของหน้าหรือบทความ ไม่ใช่ที่อยู่ทั่วไป
+div§โครงสร้างหน้า§กล่อง block ทั่วไป§ขึ้นบรรทัดใหม่และกว้างเต็มแถว¦ไม่มีความหมายในตัว ใช้เมื่อไม่มีแท็กเชิงความหมายที่เหมาะ¦เหมาะเป็นตัวห่อสำหรับจัดเลย์เอาต์ด้วย CSS
+Global attributes§คุณสมบัติกลาง§คุณสมบัติที่ใช้ได้กับทุกแท็ก§id ชื่อเฉพาะในหน้า (ใช้กับ #anchor, label for, CSS #id) ห้ามซ้ำ¦class ชื่อกลุ่ม ใส่ได้หลายชื่อคั่นด้วยช่องว่าง¦style ใส่ CSS ตรง ๆ (ความสำคัญสูง ควรใช้น้อย)¦title ข้อความที่เห็นเมื่อเอาเมาส์ชี้¦hidden ซ่อนองค์ประกอบ¦lang ระบุภาษาของส่วนนั้น¦tabindex ลำดับการกด Tab (0 = ตามปกติ, -1 = โฟกัสด้วยโค้ดเท่านั้น)¦data-* เก็บข้อมูลเอง เช่น data-id="5"¦contenteditable ให้พิมพ์แก้ในหน้าได้¦aria-label, role ช่วยการเข้าถึง`,
+css:`Selectors§ตัวเลือก§เลือกองค์ประกอบที่จะตกแต่ง§tag (p) / .class / #id / * ทุกตัว¦A B ลูกหลานทุกชั้น, A > B ลูกตรง, A + B พี่น้องถัดไปทันที, A ~ B พี่น้องที่ตามหลังทั้งหมด¦[type="email"] เลือกตามแอตทริบิวต์ [href^="https"] ขึ้นต้นด้วย [href$=".pdf"] ลงท้ายด้วย¦A, B เลือกทั้งสองกลุ่มพร้อมกัน
+Pseudo-class§ตัวเลือก§สถานะหรือตำแหน่งขององค์ประกอบ (ใช้ :)§:hover เมาส์ชี้ :focus โฟกัส :active กำลังกด :focus-visible โฟกัสด้วยคีย์บอร์ด¦:first-child :last-child :nth-child(2n) (odd, even, 3n+1) :not(.x)¦:checked :disabled :required :valid :invalid สถานะของฟอร์ม¦:root คือ html ใช้ประกาศตัวแปร
+Pseudo-element§ตัวเลือก§ส่วนเสมือนขององค์ประกอบ (ใช้ ::)§::before ::after แทรกเนื้อหาด้วย content: "..." (ต้องมี content ไม่เช่นนั้นไม่แสดง)¦::first-line ::first-letter ตกแต่งบรรทัด/ตัวอักษรแรก¦::placeholder ตกแต่งข้อความตัวอย่างในช่อง¦::selection สีตอนลากคลุมข้อความ
+Specificity§ตัวเลือก§ลำดับความสำคัญเมื่อกฎชนกัน§style="" > #id > .class / :hover / [attr] > tag / ::before¦ความสำคัญเท่ากัน อันที่เขียนทีหลังชนะ¦!important ชนะทุกอย่าง ควรเลี่ยง
+Units§หน่วยและสี§หน่วยความยาว§px พิกเซลคงที่¦% สัมพันธ์กับพ่อ¦em ตามขนาดตัวอักษรของตัวเอง/พ่อ, rem ตามขนาดตัวอักษรของ html (คาดเดาง่ายกว่า)¦vw vh ร้อยละของความกว้าง/สูงจอ dvh แก้ปัญหาแถบเบราว์เซอร์บนมือถือ¦fr ส่วนแบ่งพื้นที่ในกริด, ch ความกว้างของเลข 0
+Colors§หน่วยและสี§วิธีเขียนสี§ชื่อสี red / #rrggbb / #rgb / #rrggbbaa (มีความโปร่งใส)¦rgb(255 0 0) rgba(255,0,0,.5) hsl(210 80% 50%) (เฉดสี ความอิ่ม ความสว่าง)¦transparent โปร่งใส currentColor ใช้สีตัวอักษรปัจจุบัน
+Custom properties§หน่วยและสี§ตัวแปร CSS§ประกาศ --main: #3b82f6; ใน :root หรือที่ไหนก็ได้ (มีผลกับลูกหลาน)¦ใช้ด้วย var(--main) หรือ var(--main, สีสำรอง)¦เปลี่ยนค่าที่เดียวมีผลทั้งหน้า ใช้ทำธีมมืด/สว่างได้¦ใช้ใน calc() ได้
+calc, min, max, clamp§หน่วยและสี§คำนวณค่าใน CSS§calc(100% - 40px) ผสมหน่วยได้ (ต้องเว้นวรรครอบ + และ -)¦min() max() เลือกค่าน้อย/มากสุด¦clamp(1rem, 2.5vw, 2rem) ค่ากลางที่ไม่ต่ำกว่า/เกินขอบเขต ใช้กับตัวอักษรที่ปรับตามจอ
+display§กล่องและขนาด§ชนิดการแสดงผลของกล่อง§block ขึ้นบรรทัดใหม่เต็มแถว, inline อยู่ในบรรทัด กำหนด width/height ไม่ได้, inline-block อยู่ในบรรทัดแต่กำหนดขนาดได้¦flex / grid เปิดระบบจัดเลย์เอาต์ให้ลูก¦none ซ่อนและไม่กินพื้นที่ (ต่างจาก visibility: hidden ที่ยังกินพื้นที่)
+box-sizing§กล่องและขนาด§วิธีคำนวณความกว้างความสูง§content-box (ค่าเริ่มต้น) width ไม่รวม padding กับ border¦border-box width รวมทั้งหมด คำนวณง่ายกว่า¦นิยมตั้ง *, *::before, *::after { box-sizing: border-box }
+width และ height§กล่องและขนาด§ขนาดกล่อง§ค่า: px % auto fit-content min-content max-content¦min-width max-width min-height max-height กำหนดขอบเขต¦max-width: 100% กับรูปภาพทำให้ไม่ล้นจอ
+margin และ padding§กล่องและขนาด§margin ระยะห่างนอกกล่อง padding ระยะห่างในกล่อง§เขียนย่อ: 1 ค่า = ทั้ง 4 ด้าน, 2 ค่า = บนล่าง ซ้ายขวา, 4 ค่า = บน ขวา ล่าง ซ้าย (ตามเข็มนาฬิกา)¦margin: 0 auto จัดกล่องที่มีความกว้างให้อยู่กึ่งกลางแนวนอน¦margin บนล่างของกล่องติดกันจะยุบรวมกัน (margin collapse) padding ไม่ยุบ¦margin ติดลบได้ padding ติดลบไม่ได้
+border§กล่องและขนาด§เส้นขอบ§เขียนย่อ: border: 2px solid red (ความหนา ชนิด สี)¦ชนิด: solid dashed dotted double none groove¦border-radius มุมโค้ง 50% ทำให้เป็นวงกลม/วงรี¦border-top / right / bottom / left แยกแต่ละด้าน¦outline คล้ายขอบแต่ไม่กินพื้นที่
+overflow§กล่องและขนาด§เมื่อเนื้อหาล้นกล่อง§visible (ค่าเริ่มต้น) ปล่อยล้น¦hidden ตัดส่วนที่เกิน, scroll มีแถบเลื่อนเสมอ, auto มีแถบเมื่อจำเป็น¦overflow-x / overflow-y แยกแกน¦text-overflow: ellipsis ตัดข้อความเป็น ... (ต้องใช้คู่ white-space: nowrap และ overflow: hidden)
+font§ตัวอักษร§font-family, font-size, font-weight, font-style§font-family: "Sarabun", sans-serif เขียนชื่อสำรองเรียงตามลำดับ¦font-size หน่วย rem ปรับตามผู้ใช้ได้¦font-weight 100–900 (400 ปกติ 700 หนา) หรือ normal bold¦font-style: italic เอียง
+text§ตัวอักษร§color, text-align, line-height, text-decoration, text-transform, letter-spacing§text-align: left right center justify¦line-height: 1.5 (ไม่มีหน่วย = คูณขนาดตัวอักษร) ภาษาไทยควร 1.5 ขึ้นไป¦text-decoration: none underline line-through¦text-transform: uppercase lowercase capitalize¦letter-spacing ระยะห่างตัวอักษร, word-spacing ระยะห่างคำ¦white-space: nowrap ห้ามตัดบรรทัด, pre คงช่องว่าง
+background§พื้นหลังและเอฟเฟกต์§พื้นหลัง§background-color สีพื้น¦background-image: url(...) หรือ linear-gradient(135deg, สี1, สี2) / radial-gradient(...)¦background-size: cover เต็มโดยตัดส่วนเกิน, contain เห็นครบทั้งรูป¦background-position: center, background-repeat: no-repeat¦ซ้อนได้หลายชั้น คั่นด้วยจุลภาค
+box-shadow และ opacity§พื้นหลังและเอฟเฟกต์§เงา และความโปร่งใส§box-shadow: x y blur spread สี เช่น 0 4px 12px rgba(0,0,0,.2)¦ใส่ inset ให้เป็นเงาด้านใน คั่นหลายเงาด้วยจุลภาค¦text-shadow เงาของข้อความ¦opacity 0–1 โปร่งทั้งกล่องรวมลูก (ถ้าอยากโปร่งแค่พื้น ใช้ rgba)
+cursor, object-fit, aspect-ratio, filter§พื้นหลังและเอฟเฟกต์§คุณสมบัติจิปาถะที่ใช้บ่อย§cursor: pointer (มือชี้) not-allowed text grab¦object-fit: cover ให้รูปเต็มกรอบโดยไม่เบี้ยว¦aspect-ratio: 16 / 9 คงสัดส่วนกล่อง¦filter: blur(4px) grayscale(1) brightness(1.2) drop-shadow()
+position§การจัดวาง§วิธีวางตำแหน่ง§static (ค่าเริ่มต้น) ตามลำดับปกติ ไม่สนใจ top/left¦relative ขยับจากตำแหน่งเดิมและเป็นจุดอ้างอิงของลูกที่ absolute¦absolute ลอยออกจากลำดับ อ้างอิงพ่อที่ไม่ใช่ static ใกล้สุด¦fixed ติดกับหน้าจอ, sticky ติดเมื่อเลื่อนถึง (ใช้กับหัวตาราง เมนู)¦top right bottom left ระยะจากขอบ, inset: 0 ครบทั้งสี่
+z-index§การจัดวาง§ลำดับซ้อนทับ§ใช้ได้กับองค์ประกอบที่มี position (ไม่ใช่ static) หรือเป็นลูกของ flex/grid¦ค่ามากอยู่ด้านบน ติดลบได้¦เปรียบเทียบกันได้เฉพาะภายใน stacking context เดียวกัน
+Flexbox container§Flexbox§กล่องแม่ display: flex§flex-direction: row (ซ้ายไปขวา) column (บนลงล่าง) row-reverse column-reverse¦justify-content (แกนหลัก): flex-start center flex-end space-between space-around space-evenly¦align-items (แกนรอง): stretch (ค่าเริ่มต้น) center flex-start flex-end baseline¦flex-wrap: wrap ให้ขึ้นแถวใหม่เมื่อเต็ม¦gap ระยะห่างระหว่างลูก
+Flexbox items§Flexbox§คุณสมบัติของลูกใน flex§flex: 1 ให้ขยายแบ่งพื้นที่ที่เหลือเท่า ๆ กัน (flex-grow 1)¦flex-shrink: 0 ห้ามหด, flex-basis ขนาดเริ่มต้นก่อนขยาย/หด¦align-self ตั้งแนวรองเฉพาะตัว, order สลับลำดับแสดงผล¦margin-left: auto ดันลูกไปชิดขวา
+Grid container§Grid§กล่องแม่ display: grid§grid-template-columns: 200px 1fr / repeat(3, 1fr) / repeat(auto-fit, minmax(200px, 1fr)) (ปรับจำนวนคอลัมน์ตามจอเอง)¦grid-template-rows แถว, gap ระยะห่าง (row-gap column-gap แยกได้)¦grid-template-areas: "header header" "side main" ตั้งชื่อพื้นที่¦justify-items align-items จัดของในช่อง, place-items ย่อทั้งคู่
+Grid items§Grid§คุณสมบัติของลูกใน grid§grid-column: 1 / 3 กินคอลัมน์ 1 ถึงก่อนเส้นที่ 3 (หรือ span 2)¦grid-row ทำนองเดียวกัน¦grid-area: header วางลงพื้นที่ที่ตั้งชื่อไว้¦justify-self align-self จัดเฉพาะตัว
+transition§ภาพเคลื่อนไหว§เปลี่ยนค่าอย่างนุ่มนวล§transition: property duration timing-function delay เช่น background .3s ease¦ใส่ที่สถานะปกติ (ไม่ใช่ :hover) จึงนุ่มทั้งเข้าและออก¦timing: ease linear ease-in ease-out ease-in-out cubic-bezier()¦all ใช้กับทุกคุณสมบัติ แต่เปลืองกว่าระบุเอง
+transform§ภาพเคลื่อนไหว§ย้าย หมุน ย่อขยาย§translate(x, y) ย้าย, rotate(45deg) หมุน, scale(1.2) ขยาย, skew() เอียง¦เขียนต่อกันได้ ลำดับมีผล¦transform-origin จุดหมุน (ค่าเริ่มต้น center)¦ไม่กระทบเลย์เอาต์ของกล่องอื่น และลื่นกว่าเปลี่ยน top/left
+animation และ @keyframes§ภาพเคลื่อนไหว§ภาพเคลื่อนไหวหลายขั้นตอน§@keyframes ชื่อ { from {...} 50% {...} to {...} } กำหนดขั้นตอน¦animation: ชื่อ 2s ease-in-out 0s infinite alternate¦iteration-count (infinite วนไม่หยุด), direction (alternate ไปกลับ), fill-mode (forwards คงค่าสุดท้าย)¦ควรเคารพ @media (prefers-reduced-motion: reduce)
+@media§ตอบสนองหน้าจอ§ใช้กฎเมื่อเงื่อนไขตรง§@media (max-width: 600px) { ... } ใช้เมื่อจอกว้างไม่เกิน 600px (เขียนมือถือเป็นหลักให้ใช้ min-width)¦@media (prefers-color-scheme: dark) ตามธีมของระบบ¦@media print กฎตอนพิมพ์¦ต่อเงื่อนไขด้วย and ได้ และต้องมี viewport meta ใน HTML`,
+cpp:`โครงโปรแกรม§พื้นฐาน§โครงโปรแกรมพื้นฐาน§#include <iostream> นำเข้าไลบรารี, using namespace std; ใช้ชื่อใน std ได้โดยไม่ต้องพิมพ์ std::¦int main() จุดเริ่มต้นของโปรแกรม, return 0; คือจบแบบสำเร็จ¦ทุกคำสั่งจบด้วย ; และบล็อกใช้ { }¦คอมเมนต์: // บรรทัดเดียว /* ... */ หลายบรรทัด
+cout, cin, endl§พื้นฐาน§รับและแสดงผล§cout << a << b; ส่งออกต่อกันได้ (ตัวดำเนินการ <<)¦cin >> x; อ่านค่าเข้าตัวแปร (>>) ข้ามช่องว่าง¦getline(cin, s); อ่านทั้งบรรทัดรวมช่องว่าง (ถ้าใช้หลัง cin >> ต้อง cin.ignore() ก่อน)¦endl ขึ้นบรรทัดใหม่และล้างบัฟเฟอร์ ส่วน "\\n" ขึ้นบรรทัดใหม่อย่างเดียว เร็วกว่า
+int, long long§ชนิดข้อมูล§จำนวนเต็ม§int ปกติ 4 ไบต์ ประมาณ ±2,147,483,647¦long long 8 ไบต์ ประมาณ ±9.2×10^18 (ใช้เมื่อค่าเกิน int)¦unsigned ไม่มีค่าติดลบ ช่วงบวกกว้างกว่า, short 2 ไบต์¦หารจำนวนเต็มได้ผลเป็นจำนวนเต็ม 7 / 2 = 3 และ % คือเศษ 7 % 2 = 1¦เกินช่วง (overflow) ค่าจะวนผิดเพี้ยน
+float, double§ชนิดข้อมูล§จำนวนทศนิยม§float ประมาณ 7 หลัก, double ประมาณ 15 หลัก (ใช้เป็นหลัก), long double แม่นกว่า¦เปรียบเทียบด้วย == อาจผิดเพราะการปัดเศษ ให้ใช้ fabs(a - b) < 1e-9¦ต้องการทศนิยมจากการหาร: 7 / 2.0 หรือ (double)7 / 2¦จำนวนหลักที่แสดง: cout << fixed << setprecision(2) (อยู่ใน <iomanip>)
+char และ bool§ชนิดข้อมูล§ตัวอักษรหนึ่งตัวและค่าจริง/เท็จ§char 'A' ใช้เครื่องหมายคำพูดเดี่ยว เก็บเป็นเลข ASCII ('A' = 65) บวกลบได้ ('a' + 1 = 'b')¦bool ค่า true / false (พิมพ์ออกเป็น 1 / 0 ถ้าไม่ใช้ boolalpha)¦ในเงื่อนไข ตัวเลข 0 = false ที่ไม่ใช่ 0 = true¦escape: '\\n' ขึ้นบรรทัด '\\t' แท็บ '\\\\' ทับ '\\'' เครื่องหมาย '
+string§ชนิดข้อมูล§ข้อความ (ต้อง #include <string>)§ประกาศ string s = "hello"; ใช้ + ต่อข้อความ¦s.length() / s.size() ความยาว, s[i] / s.at(i) ตัวที่ i (at ตรวจขอบเขต)¦s.substr(pos, len) ตัดบางส่วน, s.find("x") คืนตำแหน่ง (หาไม่เจอ = string::npos)¦s.append(), s.insert(), s.erase(pos, len), s.replace(), s.empty(), s.clear()¦เปรียบเทียบด้วย == < > ได้ตรง ๆ¦stoi(s) แปลงเป็น int, stod(s) เป็น double, to_string(n) แปลงตัวเลขเป็นข้อความ
+const, auto, constexpr§ชนิดข้อมูล§ตัวระบุชนิดและค่าคงที่§const int N = 10; ห้ามแก้ค่าหลังประกาศ¦auto x = 3.5; ให้คอมไพเลอร์เดาชนิดจากค่าเริ่มต้น (ต้องมีค่าเริ่มต้น)¦constexpr คำนวณตอนคอมไพล์¦ตั้งชื่อค่าคงที่ให้อ่านง่าย แทนตัวเลขลอย ๆ ในโค้ด
+ตัวดำเนินการคณิตศาสตร์§ตัวดำเนินการ§+ - * / % และ ++ --§i++ ใช้ค่าแล้วเพิ่ม, ++i เพิ่มแล้วใช้ค่า¦+= -= *= /= %= ย่อรูป x = x + ...¦ลำดับความสำคัญ: * / % ก่อน + - ใช้ ( ) ให้ชัด¦แปลงชนิด: (double)x หรือ static_cast<double>(x)
+เปรียบเทียบและตรรกะ§ตัวดำเนินการ§== != < > <= >= และ && || !§&& และ (ทั้งคู่จริง), || หรือ (อย่างน้อยหนึ่ง), ! กลับค่า¦short-circuit: a && b ถ้า a เท็จจะไม่ประเมิน b ใช้กันหารศูนย์ได้¦ระวัง = (กำหนดค่า) กับ == (เปรียบเทียบ) สลับกัน¦ternary: เงื่อนไข ? ค่าถ้าจริง : ค่าถ้าเท็จ
+if, else if, else§ควบคุมการทำงาน§เลือกทางตามเงื่อนไข§if (เงื่อนไข) { ... } else if (...) { ... } else { ... }¦ตรวจจากบนลงล่าง เจอข้อแรกที่จริงแล้วข้ามที่เหลือ¦ควรใส่ { } เสมอแม้มีคำสั่งเดียว¦ตัวแปรที่ประกาศใน { } ใช้ได้เฉพาะในบล็อกนั้น (scope)
+switch§ควบคุมการทำงาน§เลือกตามค่าที่เท่ากับ (int/char/enum)§switch (x) { case 1: ... break; default: ... }¦ลืม break จะ "ตกต่อ" (fall-through) ไป case ถัดไป¦default ทำงานเมื่อไม่ตรงทุก case¦case ต้องเป็นค่าคงที่ ใช้กับ string ไม่ได้
+for, while, do-while§ควบคุมการทำงาน§ลูป§for (int i = 0; i < n; i++) ค่าเริ่ม; เงื่อนไข; ตัวเพิ่ม¦while (เงื่อนไข) ตรวจก่อนทำ, do { } while (เงื่อนไข); ทำก่อนอย่างน้อย 1 รอบ¦range-based: for (auto &x : v) วนทุกตัว (ใส่ & เพื่อแก้ค่า, const & เพื่อแค่อ่าน)¦break ออกจากลูป, continue ข้ามไปรอบถัดไป¦ลูปไม่รู้จบ: while (true) หรือ for (;;)
+ฟังก์ชัน§ฟังก์ชัน§ชุดคำสั่งที่เรียกใช้ซ้ำได้§รูปแบบ: ชนิดคืนค่า ชื่อ(พารามิเตอร์) { ... return ค่า; } ไม่คืนค่าใช้ void¦ต้องประกาศก่อนเรียก หรือเขียน prototype ไว้ข้างบน: int add(int a, int b);¦ค่าเริ่มต้นของพารามิเตอร์: void f(int x = 5) (ใส่ท้ายสุดเท่านั้น)¦overloading: ชื่อเดียวกันแต่พารามิเตอร์ต่างกัน¦recursion: เรียกตัวเอง ต้องมี base case
+ส่งค่าเข้าฟังก์ชัน§ฟังก์ชัน§by value, by reference, const reference§by value (int x) คัดลอกค่า แก้ในฟังก์ชันไม่กระทบต้นฉบับ¦by reference (int &x) ใช้ตัวแปรต้นฉบับ แก้แล้วเปลี่ยนจริง¦const reference (const string &s) ไม่คัดลอกและห้ามแก้ เหมาะกับข้อมูลใหญ่¦vector ส่งแบบ by value จะคัดลอกทั้งก้อน ควรใช้ reference
+อาร์เรย์§โครงสร้างข้อมูล§อาร์เรย์ขนาดคงที่§int a[5] = {1, 2, 3}; (ที่เหลือเป็น 0) ดัชนีเริ่มที่ 0¦a[5] เกินขอบเขต ไม่มีการเตือน เกิดพฤติกรรมที่ไม่แน่นอน¦ขนาดต้องเป็นค่าคงที่ตอนคอมไพล์¦2 มิติ: int g[3][4]; เข้าถึง g[i][j]¦std::array<int, 5> ปลอดภัยกว่า (มี .size() .at())
+vector§โครงสร้างข้อมูล§อาร์เรย์ขนาดปรับได้ (#include <vector>)§vector<int> v = {1, 2, 3}; vector<int> v(5, 0); (5 ตัว ค่า 0)¦v.push_back(x) เพิ่มท้าย, v.pop_back() ลบท้าย, v.size() จำนวน, v.empty() ว่างไหม, v.clear()¦v[i] ไม่ตรวจขอบเขต, v.at(i) ตรวจและโยน exception¦v.insert(v.begin() + i, x) แทรก, v.erase(v.begin() + i) ลบ¦v.front() v.back() ตัวแรก/ตัวสุดท้าย¦vector ซ้อนทำตาราง 2 มิติได้
+map และ set§โครงสร้างข้อมูล§เก็บคู่ key-value และเซ็ตที่ไม่ซ้ำ§map<string,int> m; m["a"] = 1; เรียงตาม key อัตโนมัติ¦m.count(k) มี key ไหม, m.find(k) ตำแหน่ง, m.erase(k) ลบ¦for (auto &p : m) ใช้ p.first (key) p.second (value)¦set<int> เก็บค่าไม่ซ้ำและเรียงให้ s.insert(x) s.count(x)¦unordered_map / unordered_set เร็วกว่าแต่ไม่เรียง
+พอยน์เตอร์§พอยน์เตอร์§ตัวแปรที่เก็บที่อยู่ในหน่วยความจำ§int *p = &x; & คือ "ที่อยู่ของ" * คือ "ค่าที่ชี้อยู่"¦*p = 5; แก้ค่าของ x ผ่านพอยน์เตอร์¦nullptr คือไม่ชี้อะไร ต้องตรวจก่อนใช้¦new int / delete p และ new int[n] / delete[] p จัดการหน่วยความจำเอง (ลืม delete = memory leak)¦ชื่ออาร์เรย์คือพอยน์เตอร์ไปตัวแรก p + 1 ขยับไปตัวถัดไป
+struct§OOP§รวมข้อมูลหลายชนิดเป็นก้อนเดียว§struct P { string name; int age; }; P a = {"A", 20};¦เข้าถึงสมาชิกด้วย a.name (ถ้าเป็นพอยน์เตอร์ใช้ p->name)¦สมาชิกของ struct เป็น public โดยค่าเริ่มต้น¦เก็บใน vector<P> ได้
+class§OOP§พิมพ์เขียวของวัตถุ§private: ซ่อนข้อมูล, public: เปิดให้ภายนอกใช้, protected: คลาสลูกใช้ได้ (ค่าเริ่มต้นของ class คือ private)¦constructor ชื่อเดียวกับคลาส ไม่มีชนิดคืนค่า เช่น P(string n) : name(n) {}¦destructor ~P() ทำงานตอนวัตถุถูกทำลาย¦this ชี้วัตถุปัจจุบัน¦เมธอด const: int get() const ห้ามแก้สมาชิก¦static สมาชิกที่ใช้ร่วมกันทุกวัตถุ
+การสืบทอด§OOP§สืบทอดคลาส§class B : public A คลาส B สืบทอด A¦virtual เมธอดที่คลาสลูกเขียนทับได้, override ระบุว่าเขียนทับ¦ใช้พอยน์เตอร์/reference ของคลาสแม่เรียกเมธอด virtual จะได้ของคลาสลูก (polymorphism)¦คลาสแม่ที่มี virtual ควรมี virtual destructor
+<cmath>§ไลบรารี§ฟังก์ชันคณิตศาสตร์§sqrt(x) รากที่สอง, pow(a, b) ยกกำลัง, abs(x) ค่าสัมบูรณ์ (int), fabs(x) (double)¦ceil(x) ปัดขึ้น, floor(x) ปัดลง, round(x) ปัดเศษ¦sin cos tan (หน่วยเรเดียน), log (ln), log10, exp¦M_PI ค่า π (บางคอมไพเลอร์ต้อง define เอง)
+<algorithm>§ไลบรารี§ฟังก์ชันจัดการข้อมูลสำเร็จรูป§sort(v.begin(), v.end()) เรียงน้อยไปมาก เพิ่ม greater<int>() เรียงมากไปน้อย¦reverse(v.begin(), v.end()) กลับลำดับ¦find(v.begin(), v.end(), x) ค้นหา, count() นับ¦min(a, b) max(a, b) swap(a, b), *max_element(...)¦accumulate (ใน <numeric>) หาผลรวม
+<cstdlib> และ <ctime>§ไลบรารี§สุ่มตัวเลขและเวลา§srand(time(0)) ตั้งเมล็ดสุ่มครั้งเดียวต้นโปรแกรม¦rand() % n สุ่ม 0 ถึง n-1, lo + rand() % (hi - lo + 1) สุ่มในช่วง¦<random> (mt19937) สุ่มคุณภาพดีกว่า rand()¦exit(0) ออกจากโปรแกรม
+<iomanip>§ไลบรารี§จัดรูปแบบการแสดงผล§setw(n) กว้าง n ช่อง, setfill('0') เติมด้วยอักขระ¦fixed << setprecision(2) ทศนิยม 2 ตำแหน่ง¦left right จัดชิดซ้ายขวา, boolalpha พิมพ์ true/false
+อ่านเขียนไฟล์§ไลบรารี§#include <fstream>§ofstream out("a.txt"); out << "text"; เขียนไฟล์¦ifstream in("a.txt"); while (getline(in, line)) อ่านทีละบรรทัด¦in.is_open() ตรวจว่าเปิดสำเร็จ¦ไฟล์ปิดเองเมื่อพ้นขอบเขต หรือเรียก close()
+try / catch / throw§ข้อผิดพลาด§จัดการข้อผิดพลาดตอนรัน§try { ... throw runtime_error("msg"); } catch (const exception &e) { cout << e.what(); }¦catch (...) จับทุกชนิด¦v.at(i) โยน out_of_range ถ้าเกินขอบเขต, stoi โยน invalid_argument¦ใช้กับข้อผิดพลาดที่คาดไม่ถึง ไม่ใช่แทน if ปกติ
+ข้อผิดพลาดที่พบบ่อย§ข้อผิดพลาด§สิ่งที่มือใหม่มักพลาด§ลืม ; หลังคำสั่ง หรือหลัง struct/class¦ใช้ = แทน == ในเงื่อนไข¦ตัวแปรไม่ได้ตั้งค่าเริ่มต้น มีค่าขยะ¦ดัชนีเกินขอบเขต (off-by-one) เช่น i <= n แทน i < n¦จำนวนเต็มหารกันได้จำนวนเต็ม และหารด้วยศูนย์ทำให้โปรแกรมพัง¦ลืม break ใน switch`};
+const KB={};for(const l in KBR)KB[l]=KBR[l].trim().split('\n').map(x=>{const f=x.split('§');return{n:f[0],g:f[1],d:f[2],b:(f[3]||'').split('¦')}});
+const KBR2={
+html:`abbr§ข้อความ§ตัวย่อ พร้อมคำเต็มเมื่อเอาเมาส์ชี้§title ใส่คำเต็ม¦เบราว์เซอร์มักขีดเส้นประใต้ตัวย่อ§<abbr title="HyperText Markup Language">HTML</abbr>
+mark§ข้อความ§ไฮไลต์ข้อความที่เกี่ยวข้อง เช่น คำค้นหา§พื้นหลังเหลืองโดยค่าเริ่มต้น เปลี่ยนด้วย CSS¦ใช้เพื่อบอกความเกี่ยวข้อง ไม่ใช่แค่ตกแต่ง§<p>ผลการค้นหา: <mark>HTML</mark> คืออะไร</p>
+kbd, samp, var§ข้อความ§kbd ปุ่มที่กด samp ผลลัพธ์ของโปรแกรม var ชื่อตัวแปร§มักแสดงด้วยฟอนต์ monospace§กด <kbd>Ctrl</kbd> + <kbd>C</kbd> เพื่อคัดลอก
+sub และ sup§ข้อความ§ตัวห้อยและตัวยก§sub ใช้กับสูตรเคมี¦sup ใช้กับยกกำลังและเลขอ้างอิง§H<sub>2</sub>O และ x<sup>2</sup>
+del และ ins§ข้อความ§ข้อความที่ถูกลบและที่เพิ่มเข้ามา§del ขีดฆ่า ins ขีดเส้นใต้¦มี datetime และ cite บอกเวลาและเหตุผลได้§<del>฿500</del> <ins>฿350</ins>
+q และ cite§ข้อความ§q คำพูดแทรกในบรรทัด cite ชื่อผลงานที่อ้างถึง§q เบราว์เซอร์ใส่เครื่องหมายคำพูดให้เอง¦ต่างจาก blockquote ที่เป็นบล็อก§<q>ทำจริงดีกว่าพูด</q> — <cite>สุภาษิต</cite>
+picture และ source§สื่อ§เลือกรูปตามขนาดจอหรือฟอร์แมต§source media="(min-width:600px)" srcset="..." เลือกตามจอ¦type="image/webp" เลือกตามฟอร์แมต¦ต้องมี img เป็นตัวสุดท้ายเสมอ§<picture>¶  <source media="(min-width:600px)" srcset="big.jpg">¶  <img src="small.jpg" alt="ภูเขา">¶</picture>
+canvas§สื่อ§พื้นที่วาดภาพด้วย JavaScript§ต้องกำหนด width และ height ใน HTML¦ใช้ getContext("2d") เพื่อวาด§<canvas id="c" width="200" height="100"></canvas>¶<script>¶  const g = c.getContext("2d");¶  g.fillRect(10, 10, 80, 40);¶</script>
+svg§สื่อ§กราฟิกเวกเตอร์ฝังในหน้า ขยายแล้วไม่แตก§รูปร่าง: circle rect line path polygon text¦กำหนดสีด้วย fill และ stroke หรือ CSS§<svg width="60" height="60">¶  <circle cx="30" cy="30" r="25" fill="royalblue"/>¶</svg>
+dialog§โครงสร้าง§กล่องข้อความป๊อปอัป§open แสดงทันที¦showModal() แสดงแบบมีฉากหลัง (ปิดด้วย Esc) close() ปิด¦form method="dialog" ปิดเมื่อกดส่ง§<dialog id="d"><p>สวัสดี</p><form method="dialog"><button>ปิด</button></form></dialog>¶<button onclick="d.showModal()">เปิด</button>
+output§ฟอร์ม§แสดงผลลัพธ์การคำนวณ§for ระบุ id ของช่องที่เกี่ยวข้อง¦ใช้คู่กับ oninput ของ form§<form oninput="r.value = a.valueAsNumber + b.valueAsNumber">¶  <input id="a" type="number"> + <input id="b" type="number"> = <output name="r"></output>¶</form>
+pattern และ title§ฟอร์ม§ตรวจรูปแบบข้อมูลด้วย regex§pattern ใช้กับ text tel email password search url¦title อธิบายรูปแบบที่ถูกต้องเมื่อกรอกผิด§<input pattern="[0-9]{10}" title="เบอร์โทร 10 หลัก" required>
+autocomplete§ฟอร์ม§บอกเบราว์เซอร์ว่าช่องนี้ควรเติมอะไร§ค่า: name email tel username current-password new-password street-address postal-code one-time-code¦off ปิดการเติมอัตโนมัติ§<input type="password" autocomplete="new-password">
+base§โครงสร้าง§กำหนด URL ตั้งต้นของลิงก์สัมพัทธ์ทั้งหน้า§ใส่ใน head ได้อันเดียว¦target="_blank" ตั้งค่าเริ่มต้นให้ทุกลิงก์§<base href="https://example.com/docs/">
+noscript§โครงสร้าง§เนื้อหาที่แสดงเมื่อ JavaScript ปิดอยู่§ใช้ได้ทั้งใน head และ body§<noscript>กรุณาเปิด JavaScript</noscript>
+meta สำหรับมือถือและแชร์§เมตาและ SEO§meta ที่มีผลกับแถบเบราว์เซอร์และการแชร์ลิงก์§theme-color สีแถบเบราว์เซอร์บนมือถือ¦og:title og:image og:description ข้อมูลตอนแชร์ลง Facebook หรือ Line¦robots content="noindex" ไม่ให้ค้นหาเจอ§<meta name="theme-color" content="#3b82f6">¶<meta property="og:title" content="ชื่อเพจ">
+link สำหรับ SEO§เมตาและ SEO§link ที่ช่วยเบราว์เซอร์และเครื่องมือค้นหา§rel="canonical" บอกหน้าหลักที่ถูกต้อง¦rel="preload" as="font" โหลดไฟล์สำคัญก่อน¦rel="preconnect" เชื่อมเซิร์ฟเวอร์ล่วงหน้า§<link rel="canonical" href="https://example.com/">¶<link rel="preconnect" href="https://fonts.googleapis.com">
+ARIA§การเข้าถึง§คุณสมบัติบอกโปรแกรมอ่านหน้าจอ§aria-label ตั้งชื่อให้องค์ประกอบที่ไม่มีข้อความ (เช่นปุ่มไอคอน)¦aria-hidden="true" ซ่อนจากโปรแกรมอ่านหน้าจอ¦aria-live="polite" แจ้งเมื่อเนื้อหาเปลี่ยน¦role บอกบทบาท แต่ถ้ามีแท็กที่ตรงอยู่แล้วให้ใช้แท็กนั้นก่อน§<button aria-label="ปิด">✕</button>
+Entities§ข้อความ§อักขระพิเศษที่เขียนเป็นรหัส§&lt; &gt; &amp; &quot; แทน < > & "¦&nbsp; ช่องว่างที่ไม่ถูกรวมและไม่ตัดบรรทัด¦&copy; แทน © และ &euro; แทน €¦รหัสตัวเลข &#3585; หรือ &#x0E01; ก็ได้§<p>5 &lt; 10 &amp;&amp; 10 &gt; 3 &copy; 2026</p>
+Comments§โครงสร้าง§หมายเหตุที่ไม่แสดงบนหน้า§เริ่มด้วย <!-- จบด้วย -->¦ซ้อนกันไม่ได้¦ผู้ใช้ดูได้ผ่านซอร์สโค้ด อย่าใส่ข้อมูลลับ§<!-- TODO: เพิ่มรูปโปรไฟล์ -->
+data-* กับ JavaScript§คุณสมบัติกลาง§เก็บข้อมูลเพิ่มไว้กับแท็ก§เขียน data-ชื่อ="ค่า" ชื่อเป็นตัวพิมพ์เล็ก¦อ่านด้วย el.dataset.ชื่อ (data-user-id กลายเป็น dataset.userId)¦ใช้ใน CSS ได้: [data-state="open"]§<button data-id="42" onclick="alert(this.dataset.id)">ดู</button>`,
+css:`:has()§ตัวเลือก§เลือกพ่อที่มีลูกหลานตรงเงื่อนไข§เป็นตัวเลือกแบบ "พ่อ" ที่ CSS ทำไม่ได้มาก่อน¦ใช้กับ :invalid :checked img ได้¦รองรับในเบราว์เซอร์หลักปัจจุบัน§.card:has(img) { padding: 0; }¶form:has(:invalid) button { opacity: .5; }
+:is() และ :where()§ตัวเลือก§รวมตัวเลือกหลายตัวให้สั้นลง§:is() ความเฉพาะเจาะจงเท่าตัวที่แรงสุดในนั้น¦:where() ความเฉพาะเจาะจงเป็น 0 ถูกทับได้ง่าย เหมาะกับค่าเริ่มต้น§:is(h1, h2, h3):hover { color: red; }¶:where(ul, ol) { margin: 0; }
+Counters§ตัวเลือก§ตัวนับอัตโนมัติด้วย CSS§counter-reset ตั้งค่าเริ่ม¦counter-increment เพิ่มทุกครั้งที่เจอ¦counter(ชื่อ) ใช้แสดงใน content§body { counter-reset: n; }¶h2::before { counter-increment: n; content: counter(n) ". "; }
+list-style§ตัวอักษร§รูปแบบสัญลักษณ์หน้ารายการ§list-style-type: none disc circle square decimal upper-roman lower-alpha¦list-style-position: inside หรือ outside¦list-style-image: url(...)§ul { list-style: none; padding: 0; }
+line-clamp§ตัวอักษร§ตัดข้อความตามจำนวนบรรทัดแล้วขึ้น ...§ต้องใช้ display: -webkit-box ร่วมกัน (ใช้ได้ทุกเบราว์เซอร์หลัก)¦ปรับจำนวนบรรทัดด้วย -webkit-line-clamp§.t {¶  display: -webkit-box; -webkit-box-orient: vertical;¶  -webkit-line-clamp: 3; overflow: hidden;¶}
+scroll-behavior และ scroll-snap§การจัดวาง§เลื่อนนุ่มและเลื่อนแล้วหยุดตรงจุด§html { scroll-behavior: smooth } ให้ลิงก์ #id เลื่อนนุ่ม¦scroll-snap-type: x mandatory ที่ตัวแม่ และ scroll-snap-align: start ที่ลูก¦scroll-margin-top กันเมนูบังหัวข้อ§.row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }¶.row > * { flex: none; scroll-snap-align: start; }
+Logical properties§กล่องและขนาด§คุณสมบัติที่ไม่ผูกกับซ้าย/ขวา (รองรับหลายภาษา)§margin-inline (ซ้ายขวา) margin-block (บนล่าง) padding-inline padding-block¦inline-size แทน width, block-size แทน height¦inset-inline-start แทน left§.box { margin-inline: auto; padding-block: 12px; }
+backdrop-filter§พื้นหลังและเอฟเฟกต์§เบลอหรือปรับสีสิ่งที่อยู่ด้านหลังกล่อง§ค่าเดียวกับ filter เช่น blur() brightness()¦ต้องให้พื้นหลังกล่องกึ่งโปร่งใสจึงเห็นผล (สไตล์ glassmorphism)§.glass {¶  background: rgba(255,255,255,.15);¶  backdrop-filter: blur(8px);¶}
+clip-path§พื้นหลังและเอฟเฟกต์§ตัดกล่องเป็นรูปร่างอื่น§circle(50%) ellipse() inset(10px round 8px) polygon(x y, x y, ...)¦ส่วนที่ถูกตัดจะคลิกไม่ได้§.tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+@font-face§ตัวอักษร§โหลดฟอนต์จากไฟล์ของตัวเอง§src: url(font.woff2) format("woff2") ใช้ woff2 ได้ขนาดเล็กสุด¦font-display: swap แสดงฟอนต์สำรองก่อนแล้วค่อยสลับ¦font-weight บอกว่าไฟล์นี้หนักแค่ไหน§@font-face {¶  font-family: "MyFont";¶  src: url("my.woff2") format("woff2");¶  font-display: swap;¶}
+@supports§ตอบสนองหน้าจอ§ใช้กฎเฉพาะเมื่อเบราว์เซอร์รองรับ§@supports (display: grid) { ... }¦not ตรงข้าม, and / or ต่อเงื่อนไข§@supports (backdrop-filter: blur(1px)) {¶  .glass { backdrop-filter: blur(8px); }¶}
+@layer§ตัวเลือก§จัดลำดับความสำคัญของกลุ่มกฎ§ประกาศลำดับ: @layer reset, base, theme;¦เลเยอร์หลังชนะเลเยอร์ก่อน โดยไม่สนความเฉพาะเจาะจง¦กฎที่ไม่อยู่ในเลเยอร์ชนะทุกเลเยอร์§@layer reset, base;¶@layer reset { * { margin: 0; } }¶@layer base { p { margin: 1em 0; } }
+Container queries§ตอบสนองหน้าจอ§ปรับรูปแบบตามขนาดของกล่องแม่ ไม่ใช่ขนาดจอ§ตั้ง container-type: inline-size ที่ตัวแม่¦ใช้ @container (min-width: 400px) { ... } กับลูก§.wrap { container-type: inline-size; }¶@container (min-width: 400px) {¶  .card { display: flex; }¶}
+CSS nesting§ตัวเลือก§เขียน CSS ซ้อนกันได้โดยไม่ต้องใช้ตัวประมวลผลเพิ่ม§ใช้ & อ้างถึงตัวแม่ เช่น &:hover¦รองรับในเบราว์เซอร์หลักปัจจุบัน§.card {¶  padding: 16px;¶  &:hover { background: #eef; }¶  .title { font-weight: 700; }¶}
+user-select และ pointer-events§พื้นหลังและเอฟเฟกต์§ควบคุมการเลือกข้อความและการคลิก§user-select: none ห้ามลากคลุมข้อความ¦pointer-events: none ให้คลิกทะลุองค์ประกอบ¦ไม่ควรปิดการเลือกข้อความของเนื้อหาสำคัญ§.btn { user-select: none; }¶.overlay { pointer-events: none; }
+word-break และ overflow-wrap§ตัวอักษร§ตัดคำเมื่อข้อความยาวล้นกล่อง§overflow-wrap: anywhere ตัดได้ทุกที่ถ้าจำเป็น¦word-break: break-all ตัดทุกตัวอักษร¦hyphens: auto ใส่ขีดกลาง (ต้องมี lang)¦ภาษาไทยไม่มีช่องว่างคั่นคำ เบราว์เซอร์ตัดคำให้เอง§.msg { overflow-wrap: anywhere; }
+Multi-column§การจัดวาง§แบ่งข้อความเป็นหลายคอลัมน์แบบหนังสือพิมพ์§column-count: 3 จำนวนคอลัมน์¦column-width: 200px ความกว้างขั้นต่ำ¦column-gap และ column-rule เส้นคั่น¦break-inside: avoid กันการ์ดถูกตัดกลาง§.news { column-count: 3; column-gap: 24px; }
+accent-color และ caret-color§พื้นหลังและเอฟเฟกต์§เปลี่ยนสีของช่องฟอร์มสำเร็จรูป§accent-color สีของ checkbox radio range progress¦caret-color สีเคอร์เซอร์ตอนพิมพ์¦color-scheme: dark ให้ช่องฟอร์มเป็นโทนมืด§input[type=checkbox] { accent-color: #3b82f6; }
+:focus-within§ตัวเลือก§เลือกพ่อเมื่อมีลูกถูกโฟกัสอยู่§เหมาะกับไฮไลต์ทั้งกลุ่มช่องกรอก¦ใช้คู่กับ :focus-visible§.field:focus-within { outline: 2px solid #3b82f6; }
+resize และ appearance§กล่องและขนาด§ควบคุมการลากปรับขนาดและหน้าตาแบบระบบ§resize: none vertical horizontal both (ใช้กับ textarea)¦appearance: none ลบหน้าตาเดิมของ select หรือปุ่ม เพื่อออกแบบเอง§textarea { resize: vertical; }¶select { appearance: none; }`,
+cpp:`enum และ enum class§ชนิดข้อมูล§ชุดค่าคงที่ที่ตั้งชื่อ§enum class ไม่ปนกับชื่ออื่น ต้องเขียน Color::Red¦ค่าเริ่มต้นนับจาก 0 กำหนดเองได้ เช่น Red = 5¦ใช้กับ switch ได้ดี§enum class Color { Red, Green, Blue };¶Color c = Color::Green;
+using และ typedef§ชนิดข้อมูล§ตั้งชื่อเล่นให้ชนิดข้อมูล§using ชื่อ = ชนิด; (แนะนำ) อ่านง่ายกว่า typedef¦ช่วยย่อชนิดยาว ๆ§using Grid = vector<vector<int>>;¶Grid g(3, vector<int>(4, 0));
+namespace§พื้นฐาน§แยกกลุ่มชื่อกันชนกัน§เรียกด้วย ชื่อ::สมาชิก¦using namespace std; ในไฟล์ header ไม่ควรทำ¦ใช้ using std::cout; เฉพาะที่ต้องการได้§namespace game { int score = 0; }¶int main() { game::score = 10; }
+lambda§ฟังก์ชัน§ฟังก์ชันไม่มีชื่อที่เขียนในที่เดียวกับที่ใช้§รูปแบบ [จับตัวแปร](พารามิเตอร์) { ... }¦[=] คัดลอกตัวแปรภายนอก [&] อ้างอิง¦ใช้กับ sort, find_if, for_each§sort(v.begin(), v.end(), [](int a, int b) {¶  return a > b;¶});
+Function template§ฟังก์ชัน§ฟังก์ชันเดียวใช้ได้หลายชนิด§template <typename T> ประกาศชนิดตัวแทน¦คอมไพเลอร์เดา T จากอาร์กิวเมนต์¦class template ก็เขียนได้ เช่น vector<T>§template <typename T>¶T maxOf(T a, T b) { return a > b ? a : b; }¶// maxOf(3, 7) และ maxOf(2.5, 1.2)
+unique_ptr และ shared_ptr§พอยน์เตอร์§พอยน์เตอร์อัจฉริยะ ลบหน่วยความจำให้เอง (#include <memory>)§unique_ptr เจ้าของคนเดียว คัดลอกไม่ได้ ย้ายได้ด้วย move¦shared_ptr เจ้าของหลายคน นับจำนวน ลบเมื่อไม่มีคนใช้¦สร้างด้วย make_unique<T>(...) หรือ make_shared<T>(...)§auto p = make_unique<int>(5);¶cout << *p;  // ไม่ต้อง delete
+stack และ queue§โครงสร้างข้อมูล§ที่เก็บแบบเข้าหลังออกก่อน และเข้าก่อนออกก่อน§stack: push pop top empty size¦queue: push pop front back¦pop ไม่คืนค่า ต้องอ่านด้วย top หรือ front ก่อน§stack<int> s; s.push(1); s.push(2);¶cout << s.top();  // 2
+priority_queue§โครงสร้างข้อมูล§คิวที่ตัวมากสุดออกก่อน§top() คืนค่ามากสุด¦ทำให้น้อยสุดออกก่อน: priority_queue<int, vector<int>, greater<int>>§priority_queue<int> pq;¶pq.push(3); pq.push(9);¶cout << pq.top();  // 9
+pair, tuple, structured bindings§โครงสร้างข้อมูล§จับคู่ข้อมูลและแตกค่าออกมา§pair<int,string> p = {1, "a"}; ใช้ p.first p.second¦make_pair และ make_tuple สร้างเร็ว¦C++17: auto [a, b] = p; แตกค่า§pair<int,string> p = {1, "a"};¶auto [id, name] = p;
+stringstream§ไลบรารี§ใช้สตริงเหมือน cin/cout (#include <sstream>)§แยกคำ: while (ss >> word)¦ต่อข้อความกับตัวเลข: ss << x << "," << y; แล้วเรียก ss.str()¦แปลงข้อความเป็นตัวเลขได้§stringstream ss("10 20 30");¶int x;¶while (ss >> x) cout << x * 2 << " ";
+Operator overloading§OOP§กำหนดความหมายให้ + == << กับคลาสของเรา§เขียนเป็นเมธอด Vec operator+(const Vec &o) const¦ตัวดำเนินการ << ต้องเป็นฟังก์ชันนอกคลาส (friend)¦อย่าเปลี่ยนความหมายจนสับสน§struct V {¶  int x;¶  V operator+(const V &o) const { return {x + o.x}; }¶};¶V c = V{1} + V{2};  // c.x = 3
+Bitwise operators§ตัวดำเนินการ§ทำงานกับบิต§& และ, | หรือ, ^ xor, ~ กลับบิต¦<< เลื่อนซ้าย (คูณ 2) >> เลื่อนขวา (หาร 2)¦ใช้เป็นแฟล็ก: ตั้งบิต x |= (1 << k) ตรวจบิต x & (1 << k)§int x = 5;  // 101¶cout << (x & 1) << " " << (x << 1);  // 1 10
+sizeof§พื้นฐาน§ขนาดของชนิดหรือตัวแปร (ไบต์)§sizeof(int) ปกติ 4, sizeof(double) 8, sizeof(char) 1¦กับอาร์เรย์: sizeof(a) / sizeof(a[0]) = จำนวนสมาชิก¦sizeof ของพอยน์เตอร์คือขนาดพอยน์เตอร์ ไม่ใช่ขนาดอาร์เรย์ที่ชี้§int a[10];¶cout << sizeof(a) / sizeof(a[0]);  // 10
+#define และ include guard§พื้นฐาน§คำสั่งพรีโพรเซสเซอร์§#define PI 3.14 แทนที่ข้อความก่อนคอมไพล์ (ชอบ const มากกว่า)¦#ifndef / #define / #endif กันไฟล์ header ถูกรวมซ้ำ (หรือใช้ #pragma once)¦#include "file.h" ไฟล์ของเรา, <...> ไลบรารีมาตรฐาน§#ifndef MYLIB_H¶#define MYLIB_H¶// ... โค้ด ...¶#endif
+iterators§โครงสร้างข้อมูล§ตัวชี้ตำแหน่งใน container§begin() ตัวแรก, end() ตำแหน่งหลังตัวสุดท้าย¦*it ค่าที่ชี้อยู่ ++it ไปตัวถัดไป¦erase(it) ลบแล้วได้ตำแหน่งถัดไป§for (auto it = v.begin(); it != v.end(); ++it)¶  cout << *it << " ";
+การแปลงชนิด (cast)§ชนิดข้อมูล§static_cast และชนิดอื่น§static_cast<double>(x) แปลงอย่างปลอดภัยที่สุด (แนะนำ)¦dynamic_cast แปลงพอยน์เตอร์ในคลาสสืบทอด ตรวจตอนรัน¦reinterpret_cast อันตราย ใช้เมื่อจำเป็นจริง ๆ§int a = 7, b = 2;¶double r = static_cast<double>(a) / b;  // 3.5
+argc และ argv§พื้นฐาน§รับค่าจากบรรทัดคำสั่ง§int main(int argc, char *argv[])¦argc จำนวนอาร์กิวเมนต์ (รวมชื่อโปรแกรม) argv[0] คือชื่อโปรแกรม¦แปลงเป็นตัวเลขด้วย stoi(argv[1])§int main(int argc, char *argv[]) {¶  if (argc > 1) cout << argv[1];¶}
+deque และ list§โครงสร้างข้อมูล§ที่เก็บข้อมูลอีกสองแบบ§deque เพิ่มลบได้ทั้งหัวท้าย: push_front push_back เข้าถึง [i] ได้¦list ลิงก์ลิสต์สองทาง แทรกกลางเร็ว แต่เข้าถึง [i] ไม่ได้¦ส่วนใหญ่ vector เร็วและพอแล้ว§deque<int> d;¶d.push_front(1);¶d.push_back(2);
+<chrono> และ sleep§ไลบรารี§วัดเวลาและหน่วงเวลา§chrono::steady_clock::now() จับเวลา¦duration_cast<chrono::milliseconds>(จบ - เริ่ม).count() ได้มิลลิวินาที¦this_thread::sleep_for(chrono::seconds(1)) หน่วงเวลา (ต้อง #include <thread>)§auto t0 = chrono::steady_clock::now();¶// ... งาน ...¶auto t1 = chrono::steady_clock::now();¶auto ms = chrono::duration_cast<chrono::milliseconds>(t1 - t0).count();`};
+const kbp=r=>r.trim().split('\n').map(x=>{const f=x.split('§');return{n:f[0],g:f[1],d:f[2],b:(f[3]||'').split('¦').filter(Boolean),x:(f[4]||'').split('¶').join('\n')}});
+for(const l in KBR2)KB[l]=KB[l].concat(kbp(KBR2[l]));
+let kbl='html',kbq='',kbg='';
+const kbOpen=l=>passed(l,'elite')||!!(S.kb&&S.kb[l]);
+const hx=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function menu(){
+  const L={html:['🌐','โครงสร้างหน้าเว็บ'],css:['🎨','ตกแต่งและจัดเลย์เอาต์'],cpp:['⚙️','ตรรกะและโครงสร้างโปรแกรม']};
+  const total=Object.keys(LN).reduce((a,l)=>a+LV.reduce((x,d)=>x+cnt(l,d),0),0);
+  const cards=Object.keys(LN).map(l=>{
+    const lk=l==='cpp'&&!cppOpen(),nx=nextLv(l),ps=LV.filter(d=>passed(l,d)).length,kb=kbOpen(l);
+    const steps=LV.map(d=>{const st=passed(l,d)?'done':lockd(l,d)?'lock':d===nx?'cur':'',q=d==='elite'?1:Q;return `<li class="st ${st}"><b>${DN[d]}</b><small>${st==='lock'?'🔒':Math.min(cnt(l,d),q)+'/'+q}</small></li>`}).join('');
+    return `<article class="card lang${lk?' lk':''}"><div class="chd"><span class="ic">${lk?'🔒':L[l][0]}</span><div><h3>${LN[l]}</h3><p>${lk?'ปลดล็อกเมื่อผ่านด่านยากของ HTML และ CSS':L[l][1]}</p></div></div><ol class="ladder">${steps}</ol><div class="pb"><i style="width:${ps/LV.length*100}%"></i></div><div class="row2"><button class="big" data-go="${l}" ${lk?'disabled':''}>${lk?'ล็อกอยู่':'เริ่มฝึก'}</button><button class="ghost" data-kb="${l}">${kb?'📖 คลังความรู้':'🔒 ความรู้'}</button></div></article>`}).join('');
+  $('#menu').innerHTML=`<section class="hero2"><div><h2>Code Dojo</h2><p>ฝึก HTML, CSS และ C++ จากง่ายไปยากมาก ปลดล็อก Elite เพื่อสร้างเว็บและโปรแกรมจริง แล้วรับคลังความรู้ฉบับละเอียดของภาษานั้น</p><div class="cta"><button class="big" data-go="${lang}">▶ เล่นต่อ</button><button class="ghost" data-kb="*">📖 คลังความรู้</button></div></div>
+  <div class="tiles"><div><b>${RANKS[Math.min(S.p,RANKS.length-1)]}</b><span>ยศ</span></div><div><b>${S.xp}</b><span>XP</span></div><div><b>${S.p?'★'.repeat(S.p):'–'}</b><span>Prestige</span></div><div><b>${total}</b><span>ข้อที่ทำถูก</span></div></div></section>
+  <h3 class="sec">เส้นทางการฝึก</h3><div class="grid3">${cards}</div>
+  <div class="two"><div class="panel"><h3>★ Prestige</h3><p class="note">${cppOpen()?'คุณผ่านด่านยากของ HTML และ CSS แล้ว เกิดใหม่เพื่อรับ ★ เพิ่ม ยศใหม่ และ XP ต่อข้อเพิ่ม 50% (คลังความรู้ที่ปลดล็อกแล้วยังอยู่)':'ต้องผ่านด่านยากของ HTML และ CSS ก่อนจึงจะเริ่มใหม่ได้'}</p><button class="big" data-act="prestige" ${cppOpen()?'':'disabled'}>★ Prestige</button></div>
+  <div class="panel"><h3>วิธีเล่น</h3><ol><li>เลือกภาษาแล้วกดสุ่มข้อ เขียนโค้ดตามโจทย์แล้วกดตรวจคำตอบ</li><li>ทำถูก 5 ข้อเพื่อผ่านแต่ละด่าน</li><li>ผ่านด่านยากของ HTML และ CSS เพื่อปลดล็อก C++</li><li>ผ่านด่านยากมากเพื่อปลดล็อก Elite (สร้างเว็บจริง)</li><li>ทำ Elite สำเร็จเพื่อเปิดคลังความรู้ของภาษานั้น</li></ol></div></div>`;
+}
+function kbPage(){
+  const ok=kbOpen(kbl);
+  const tabs=Object.keys(LN).map(l=>`<button class="tab" data-kt="${l}" aria-selected="${l===kbl}">${kbOpen(l)?'':'🔒 '}${LN[l]}</button>`).join('');
+  let h=`<div class="panel"><h2>📖 คลังความรู้</h2><p class="note">คู่มืออ้างอิงแท็ก คุณสมบัติ และคำสั่งของแต่ละภาษา ปลดล็อกเมื่อทำโปรเจกต์ Elite ของภาษานั้นสำเร็จ</p><div class="langs">${tabs}</div>`;
+  if(!ok){
+    h+=`<div class="kblock"><div class="ic">🔒</div><h3>คลังความรู้ ${LN[kbl]} ยังล็อกอยู่</h3><p>ทำโปรเจกต์ Elite ของ ${LN[kbl]} ให้สำเร็จเพื่อปลดล็อก</p><p class="note">ด่านยากมาก ${Math.min(cnt(kbl,'expert'),Q)}/${Q} · Elite ${cnt(kbl,'elite')}/1</p><button class="big" data-go="${kbl}" ${kbl==='cpp'&&!cppOpen()?'disabled':''}>ไปฝึก ${LN[kbl]}</button></div></div>`;
+    $('#kb').innerHTML=h;return;
+  }
+  const gs=[...new Set(KB[kbl].map(e=>e.g))];
+  h+=`<div class="kbbar"><input id="kq" type="search" placeholder="ค้นหา เช่น legend, flex, vector" value="${hx(kbq)}" aria-label="ค้นหา"></div><div class="chips2"><button data-kg="" class="${kbg?'':'on'}">ทั้งหมด</button>${gs.map(g=>`<button data-kg="${g}" class="${kbg===g?'on':''}">${g}</button>`).join('')}</div><p class="note" id="kcount"></p><div id="kblist"></div></div>`;
+  $('#kb').innerHTML=h;
+  $('#kq').oninput=e=>{kbq=e.target.value;kbList()};
+  kbList();
+}
+function kbList(){
+  const q=kbq.trim().toLowerCase();
+  const r=KB[kbl].filter(e=>(!kbg||e.g===kbg)&&(!q||(e.n+' '+e.d+' '+e.b.join(' ')+' '+(e.x||'')).toLowerCase().includes(q)));
+  $('#kcount').textContent=`แสดง ${r.length} จาก ${KB[kbl].length} หัวข้อ`;
+  $('#kblist').innerHTML=r.map(e=>`<details class="kbe"${q?' open':''}><summary><code>${hx(e.n)}</code><span>${hx(e.d)}</span><span class="g">${hx(e.g)}</span></summary><ul>${e.b.map(x=>`<li>${hx(x)}</li>`).join('')}</ul>${e.x?`<pre class="ex">${hx(e.x)}</pre>`:''}</details>`).join('')||'<p class="note">ไม่พบหัวข้อที่ค้นหา</p>';
+}
+let pc=0;
+function prest(bt){
+  if(!cppOpen())return;
+  if(!pc){bt.textContent='ยืนยัน: รีเซ็ตทั้งหมดเพื่อรับ ★';pc=setTimeout(()=>{pc=0;render()},6000);return}
+  clearTimeout(pc);pc=0;
+  const kb={};for(const l in LN)kb[l]=kbOpen(l);S={s:{},xp:0,p:S.p+1,kb};save();for(const k in draft)delete draft[k];lang='html';view='menu';cur=pick('html','easy').id;render();
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-l],[data-r],[data-go],[data-m],[data-act],[data-kb],[data-kt],[data-kg]');if(!t||t.disabled)return;
+  const D=t.dataset;
+  if(D.act){prest(t);return}
+  if(D.m){view='menu';render();return}
+  if(D.kb){if(D.kb!=='*')kbl=D.kb;kbq='';kbg='';view='kb';render();window.scrollTo(0,0);return}
+  if(D.kt){kbl=D.kt;kbq='';kbg='';render();return}
+  if('kg' in D){kbg=D.kg;render();return}
+  if(D.go){lang=D.go;view='play';cur=pick(lang,nextLv(lang)).id;render();return}
+  if(D.l){lang=D.l;cur=pick(lang,'easy').id}
+  else{const r=D.r,d=r==='auto'?nextLv(lang):r;cur=pick(lang,d).id}
+  render();
+});
+let user=null,serverOn=false,amode='login',st=0;
+const api=async(m,u,b)=>{const r=await fetch(u,{method:m,headers:{'Content-Type':'application/json'},body:b?JSON.stringify(b):undefined});let d={};try{d=await r.json()}catch(e){}return{ok:r.ok,status:r.status,d}};
+function push(){if(!user)return;clearTimeout(st);st=setTimeout(()=>api('PUT','/api/progress',S).catch(()=>{}),400)}
+function updAuth(){const b=$('#lbtn');b.hidden=!serverOn;b.textContent=user?'ออกจากระบบ ('+user+')':'เข้าสู่ระบบ'}
+function showAuth(v){$('#auth').hidden=!v;if(v)$('#aem').focus()}
+function setMode(m){amode=m;const L=m==='login';$('#atitle').textContent=L?'เข้าสู่ระบบ':'สมัครสมาชิก';$('#asub').textContent=L?'เข้าสู่ระบบ':'สมัครสมาชิก';$('#atog').textContent=L?'ยังไม่มีบัญชี? สมัครสมาชิก':'มีบัญชีแล้ว? เข้าสู่ระบบ';$('#apw').autocomplete=L?'current-password':'new-password';$('#aerr').textContent=''}
+const hasProg=p=>p&&(p.xp>0||p.p>0||Object.keys(p.s||{}).length>0);
+async function boot(){
+  let r;try{r=await api('GET','/api/me')}catch(e){return}
+  if(r.ok&&r.d.email){serverOn=true;user=r.d.email;S=Object.assign({s:{},xp:0,p:0},r.d.progress||{})}
+  else if(r.status===401){serverOn=true;showAuth(true)}
+  render();
+}
+$('#atog').onclick=()=>setMode(amode==='login'?'register':'login');
+$('#aguest').onclick=()=>showAuth(false);
+$('#asub').onclick=async()=>{
+  $('#aerr').textContent='';
+  let r;try{r=await api('POST',amode==='login'?'/api/login':'/api/register',{email:$('#aem').value,password:$('#apw').value})}catch(e){$('#aerr').textContent='เชื่อมต่อเซิร์ฟเวอร์ไม่ได้';return}
+  if(!r.ok){$('#aerr').textContent=r.d.error||'เกิดข้อผิดพลาด';return}
+  user=r.d.email;
+  if(hasProg(r.d.progress))S=Object.assign({s:{},xp:0,p:0},r.d.progress);
+  push();$('#apw').value='';showAuth(false);view='menu';render();
+};
+['#aem','#apw'].forEach(i=>$(i).onkeydown=e=>{if(e.key==='Enter')$('#asub').click()});
+$('#lbtn').onclick=async()=>{
+  if(!user){showAuth(true);return}
+  try{await api('POST','/api/logout')}catch(e){}
+  user=null;try{S=Object.assign({s:{},xp:0,p:0},JSON.parse(localStorage.getItem('codedojo')||'{}'))}catch(e){S={s:{},xp:0,p:0}}
+  view='menu';showAuth(true);render();
+};
+render();boot();
+</script>
+</body>
+</html>

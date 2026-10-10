@@ -1,0 +1,7 @@
+{
+  "name": "code-dojo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Code Dojo สำหรับ Vercel (หน้าเว็บ + API สมัคร/ล็อกอินด้วยอีเมล)",
+  "engines": { "node": ">=18" }
+}
